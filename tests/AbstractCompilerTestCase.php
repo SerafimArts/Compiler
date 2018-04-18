@@ -16,5 +16,4 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractCompilerTestCase extends TestCase
 {
-
 }

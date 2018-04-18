@@ -19,8 +19,8 @@ class PCRECompiler
 {
     private const REGEX_DELIMITER = '/';
 
-    private const FLAG_UNICODE = 'u';
-    private const FLAG_DOT_ALL = 's';
+    private const FLAG_UNICODE  = 'u';
+    private const FLAG_DOT_ALL  = 's';
     private const FLAG_ANALYZED = 'S';
 
     /**
