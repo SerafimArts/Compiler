@@ -17,7 +17,7 @@ use Railt\Compiler\Generator\Renderer\TwigRenderer;
  */
 abstract class BaseCodeGenerator implements CodeGenerator
 {
-    protected const HEADER_LENGTH = 80;
+    protected const HEADER_LENGTH      = 80;
     protected const DEFAULT_CLASS_NAME = 'GeneratedLexer';
 
     /**
@@ -101,7 +101,7 @@ abstract class BaseCodeGenerator implements CodeGenerator
 
             foreach (\preg_split('/\s+/iu', $line) ?? [] as $word) {
                 if ($length + \mb_strlen($word) > static::HEADER_LENGTH) {
-                    $this->header[] = $text;
+                    $this->header[]  = $text;
                     [$length, $text] = [0, ''];
                 }
 
@@ -109,7 +109,7 @@ abstract class BaseCodeGenerator implements CodeGenerator
                     $text .= ' ';
                 }
 
-                $text   .= $word;
+                $text .= $word;
                 $length += \mb_strlen($word);
             }
 

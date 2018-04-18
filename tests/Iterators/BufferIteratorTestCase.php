@@ -179,7 +179,7 @@ class BufferIteratorTestCase extends AbstractCompilerTestCase
 
         $i = 0;
         do {
-            $this->assertEquals($i++, $iterator->current());
+            $this->assertSame($i++, $iterator->current());
             $iterator->next();
         } while ($iterator->valid());
 
@@ -187,7 +187,7 @@ class BufferIteratorTestCase extends AbstractCompilerTestCase
 
         $i = 0;
         do {
-            $this->assertEquals($i++, $iterator->current());
+            $this->assertSame($i++, $iterator->current());
             $iterator->next();
         } while ($iterator->valid());
     }
