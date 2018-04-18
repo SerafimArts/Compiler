@@ -58,7 +58,7 @@ foreach ($lexer->lex(File::fromSources('23 42')) as $token) {
 
 Experimental lexer based on the 
 [C++ lexertl library](https://github.com/BenHanson/lexertl). To use it, you 
-need support for [Parle expansion](http://php.net/manual/ru/book.parle.php).
+need support for [Parle extension](http://php.net/manual/ru/book.parle.php).
 Note that this implementation is 1.5 to 3 times **slower** than the native 
 PHP implementation.
 
