@@ -1,3 +1,15 @@
+<p align="center">
+    <img src="https://railt.org/img/logo-dark.svg" alt="Railt" />
+</p>
+
+<p align="center">
+    <a href="https://travis-ci.org/railt/compiler"><img src="https://travis-ci.org/railt/compiler.svg?branch=master" alt="Travis CI" /></a>
+    <a href="https://styleci.io/repos/108196037?branch=master"><img src="https://styleci.io/repos/108196037/shield?b=master" alt="StyleCI" /></a>
+    <a href="https://packagist.org/packages/railt/compiler"><img src="https://poser.pugx.org/railt/compiler/version" alt="Latest Stable Version"></a>
+    <a href="https://packagist.org/packages/railt/compiler"><img src="https://poser.pugx.org/railt/compiler/v/unstable" alt="Latest Unstable Version"></a>
+    <a href="https://raw.githubusercontent.com/railt/railt/master/LICENSE"><img src="https://poser.pugx.org/railt/railt/license" alt="License MIT"></a>
+</p>
+
 # Compiler
 
 This is almost a completely rewritten implementation 
@@ -8,6 +20,9 @@ The documentation and the way of using it can be found on the
 
 In contrast to the original implementation, this implementation 
 contains several differences.
+
+> Note: All questions and issues please send 
+to [https://github.com/railt/railt/issues](https://github.com/railt/railt/issues)
 
 ## Lexer
 
