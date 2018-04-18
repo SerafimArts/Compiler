@@ -167,28 +167,4 @@ class BufferIteratorTestCase extends AbstractCompilerTestCase
             }
         }
     }
-
-    /**
-     * @return void
-     * @throws \PHPUnit\Framework\Exception
-     * @throws \PHPUnit\Framework\ExpectationFailedException
-     */
-    public function testRewindOverGenerators(): void
-    {
-        $iterator = $this->bufferOverGenerator(100, 1000);
-
-        $i = 0;
-        do {
-            $this->assertEquals($i++, $iterator->current());
-            $iterator->next();
-        } while ($iterator->valid());
-
-        $iterator->rewind();
-
-        $i = 0;
-        do {
-            $this->assertEquals($i++, $iterator->current());
-            $iterator->next();
-        } while ($iterator->valid());
-    }
 }
