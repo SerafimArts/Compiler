@@ -1,7 +1,7 @@
 
 Railt Framework: MIT License
 
-Copyright © 2017 Kirill Nesmeyanov
+Copyright © 2018 Kirill Nesmeyanov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ SOFTWARE.
 
 Hoa: New BSD License
 
-Copyright © 2007-2017, Hoa community. All rights reserved.
+Copyright © 2007-2018, Hoa community. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
