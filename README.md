@@ -7,7 +7,7 @@
     <a href="https://styleci.io/repos/108196037?branch=master"><img src="https://styleci.io/repos/108196037/shield?b=master" alt="StyleCI" /></a>
     <a href="https://packagist.org/packages/railt/compiler"><img src="https://poser.pugx.org/railt/compiler/version" alt="Latest Stable Version"></a>
     <a href="https://packagist.org/packages/railt/compiler"><img src="https://poser.pugx.org/railt/compiler/v/unstable" alt="Latest Unstable Version"></a>
-    <a href="https://raw.githubusercontent.com/railt/railt/master/LICENSE"><img src="https://poser.pugx.org/railt/railt/license" alt="License MIT"></a>
+    <a href="https://raw.githubusercontent.com/railt/compiler/master/LICENSE"><img src="https://poser.pugx.org/railt/compiler/license" alt="License MIT"></a>
 </p>
 
 # Compiler
