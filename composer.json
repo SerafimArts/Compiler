@@ -3,7 +3,13 @@
     "type": "library",
     "description": "The Railt Compiler Parser-Generator",
     "license": "MIT",
-    "keywords": ["compiler", "grammar", "language", "pp", "ast"],
+    "keywords": [
+        "compiler",
+        "grammar",
+        "language",
+        "pp",
+        "ast"
+    ],
     "homepage": "http://railt.org",
     "support": {
         "issues": "https://github.com/railt/railt/issues",
