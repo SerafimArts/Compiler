@@ -4,7 +4,6 @@
 
 <p align="center">
     <a href="https://travis-ci.org/railt/compiler"><img src="https://travis-ci.org/railt/compiler.svg?branch=master" alt="Travis CI" /></a>
-    <a href="https://styleci.io/repos/108196037?branch=master"><img src="https://styleci.io/repos/108196037/shield?b=master" alt="StyleCI" /></a>
     <a href="https://scrutinizer-ci.com/g/railt/compiler/?branch=master"><img src="https://scrutinizer-ci.com/g/railt/compiler/badges/coverage.png?b=master" alt="Code coverage" /></a>
     <a href="https://scrutinizer-ci.com/g/railt/compiler/?branch=master"><img src="https://scrutinizer-ci.com/g/railt/compiler/badges/quality-score.png?b=master" alt="Scrutinizer CI" /></a>
     <a href="https://packagist.org/packages/railt/compiler"><img src="https://poser.pugx.org/railt/compiler/version" alt="Latest Stable Version"></a>
