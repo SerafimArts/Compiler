@@ -45,9 +45,10 @@
     },
     "require-dev": {
         "twig/twig": "~2.0",
-        "phpunit/phpunit": "~6.0",
         "zendframework/zend-code": "~3.0",
-        "symfony/finder": "~4.0"
+        "symfony/finder": "~4.0",
+        "phpunit/phpunit": "~6.0",
+        "codedungeon/phpunit-result-printer": "~0.16"
     },
     "autoload-dev": {
         "psr-4": {
