@@ -21,7 +21,7 @@ class Parser extends Runtime
     /**
      * @param Readable $grammar
      * @return ParserInterface
-     * @throws \Railt\Io\Exceptions\NotReadableException
+     * @throws \Railt\Io\Exception\NotReadableException
      */
     public static function fromGrammar(Readable $grammar): ParserInterface
     {

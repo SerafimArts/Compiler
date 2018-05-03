@@ -46,4 +46,9 @@ interface RuleInterface extends NodeInterface, \Countable, \IteratorAggregate
      * @return null|NodeInterface|RuleInterface|LeafInterface
      */
     public function find(string $name, int $depth = null): ?NodeInterface;
+
+    /**
+     * @return \Traversable|string[]
+     */
+    public function getValue();
 }

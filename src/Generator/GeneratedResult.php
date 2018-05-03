@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Generator;
 
-use Railt\Io\Exceptions\NotReadableException;
+use Railt\Io\Exception\NotReadableException;
 use Railt\Io\File;
 use Railt\Io\Readable;
 
@@ -61,7 +61,7 @@ class GeneratedResult
     /**
      * @param string $directory
      * @return Readable
-     * @throws \Railt\Io\Exceptions\NotReadableException
+     * @throws \Railt\Io\Exception\NotReadableException
      */
     public function saveTo(string $directory): Readable
     {

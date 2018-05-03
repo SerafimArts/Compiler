@@ -112,4 +112,20 @@ class Rule extends Node implements RuleInterface
 
         return null;
     }
+
+    /**
+     * @return string[]|\Traversable
+     */
+    public function getValue()
+    {
+        foreach ($this->children as $child) {
+            if ($child instanceof RuleInterface) {
+                yield from $child->getValue();
+            }
+
+            if ($child instanceof LeafInterface) {
+                yield $child => $child->getValue();
+            }
+        }
+    }
 }

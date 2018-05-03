@@ -50,7 +50,7 @@ class GrammarTestCase extends AbstractCompilerTestCase
      * @param string $ast
      * @return void
      * @throws \PHPUnit\Framework\ExpectationFailedException
-     * @throws \Railt\Io\Exceptions\NotReadableException
+     * @throws \Railt\Io\Exception\NotReadableException
      * @throws \PHPUnit\Framework\Exception
      */
     public function testAst(string $grammar, string $sources, string $ast): void

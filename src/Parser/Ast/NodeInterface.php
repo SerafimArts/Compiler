@@ -29,4 +29,9 @@ interface NodeInterface
      * @return bool
      */
     public function is(string $name): bool;
+
+    /**
+     * @return mixed
+     */
+    public function getValue();
 }

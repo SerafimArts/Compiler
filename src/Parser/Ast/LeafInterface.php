@@ -17,5 +17,5 @@ interface LeafInterface extends NodeInterface
     /**
      * @return string
      */
-    public function getValue(): string;
+    public function getValue();
 }
