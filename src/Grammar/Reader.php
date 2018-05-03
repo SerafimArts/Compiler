@@ -77,7 +77,7 @@ class Reader
     /**
      * @param Readable $input
      * @return ParsingResult
-     * @throws \Railt\Io\Exceptions\NotReadableException
+     * @throws \Railt\Io\Exception\NotReadableException
      */
     public function read(Readable $input): ParsingResult
     {
@@ -96,7 +96,7 @@ class Reader
     /**
      * @param Readable $input
      * @return \Traversable
-     * @throws \Railt\Io\Exceptions\NotReadableException
+     * @throws \Railt\Io\Exception\NotReadableException
      */
     private function lex(Readable $input): \Traversable
     {
@@ -120,7 +120,7 @@ class Reader
      * @param Readable $from
      * @param TokenInterface $token
      * @return Readable
-     * @throws \Railt\Io\Exceptions\NotReadableException
+     * @throws \Railt\Io\Exception\NotReadableException
      */
     private function include(Readable $from, TokenInterface $token): Readable
     {

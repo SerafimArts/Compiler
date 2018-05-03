@@ -99,7 +99,7 @@ abstract class Runtime
 
     /**
      * @return Readable
-     * @throws \Railt\Io\Exceptions\NotReadableException
+     * @throws \Railt\Io\Exception\NotReadableException
      * @throws \RuntimeException
      */
     public static function build(): Readable
