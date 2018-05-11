@@ -15,7 +15,7 @@ namespace Railt\Compiler\Iterator;
 class RegexNamedGroupsIterator extends RegexIterator
 {
     /**
-     * @return \Traversable|array[]
+     * @return \Traversable|\Generator|array[]
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */

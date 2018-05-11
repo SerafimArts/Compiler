@@ -13,6 +13,7 @@ use Railt\Compiler\Exception\ParserException;
 use Railt\Compiler\Exception\UnexpectedTokenException;
 use Railt\Compiler\Iterator\Buffer;
 use Railt\Compiler\Iterator\BufferInterface;
+use Railt\Compiler\Lexer\Result\Unknown;
 use Railt\Compiler\LexerInterface;
 use Railt\Compiler\Parser\Ast\Leaf;
 use Railt\Compiler\Parser\Ast\Node;
@@ -112,7 +113,7 @@ abstract class Runtime implements ParserInterface
                 /** @var TokenInterface $token */
                 $token = $buffer->top();
 
-                $error = \sprintf('Unexpected token %s', $token);
+                $error = \sprintf('Unregistered token %s', $token);
                 throw UnexpectedTokenException::fromFile($error, $input, $token->offset());
             }
         } while (true);
@@ -132,7 +133,14 @@ abstract class Runtime implements ParserInterface
      */
     private function lex(Readable $input): \Traversable
     {
-        yield from $this->getLexer()->lex($input);
+        foreach ($this->getLexer()->lex($input) as $token) {
+            if ($token instanceof Unknown) {
+                $error = \sprintf('Unexpected lexical token %s', $token);
+                throw UnexpectedTokenException::fromFile($error, $input, $token->offset());
+            }
+
+            yield $token;
+        }
     }
 
     /**

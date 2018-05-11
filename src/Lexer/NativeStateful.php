@@ -62,13 +62,16 @@ class NativeStateful implements Stateful
      */
     protected function exec(string $pattern, string $content): \Traversable
     {
-        $offset   = 0;
-        $iterator = new RegexNamedGroupsIterator($pattern, $content);
+        $offset = 0;
+        $regex  = new RegexNamedGroupsIterator($pattern, $content);
 
-        foreach ($iterator as $name => $context) {
-            $token = $name === TokenInterface::UNKNOWN_TOKEN
-                ? new Unknown($context[0], $offset)
-                : new Token($name, $context, $offset);
+        $iterator = $regex->getIterator();
+
+        while ($iterator->valid()) {
+            /** @var TokenInterface $token */
+            $token = $iterator->key() === Token::UNKNOWN_TOKEN
+                ? $this->unknown($iterator, $offset)
+                : $this->token($iterator, $offset);
 
             $offset += $token->bytes();
 
@@ -76,5 +79,55 @@ class NativeStateful implements Stateful
         }
 
         yield new Eoi($offset);
+    }
+
+    /**
+     * @param \Traversable $iterator
+     * @param int $offset
+     * @return Unknown
+     */
+    private function unknown(\Traversable $iterator, int $offset): TokenInterface
+    {
+        $body = $iterator->current()[0];
+        $iterator->next();
+
+        $body .= $this->collapse($iterator, TokenInterface::UNKNOWN_TOKEN);
+
+        return new Unknown($body, $offset);
+    }
+
+    /**
+     * @param \Traversable $iterator
+     * @return string
+     */
+    private function collapse(\Traversable $iterator, string $token): string
+    {
+        $body = '';
+
+        while ($iterator->valid()) {
+            if ($iterator->key() !== $token) {
+                break;
+            }
+
+            $body .= $iterator->current()[0];
+
+            $iterator->next();
+        }
+
+        return $body;
+    }
+
+    /**
+     * @param \Traversable $iterator
+     * @param int $offset
+     * @return Token
+     */
+    private function token(\Traversable $iterator, int $offset)
+    {
+        [$name, $context] = [$iterator->key(), $iterator->current()];
+
+        $iterator->next();
+
+        return new Token($name, $context, $offset);
     }
 }

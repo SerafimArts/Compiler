@@ -135,11 +135,10 @@ class PCRECompiler
      */
     protected function render(): string
     {
-        $tokens = \iterator_to_array($this->tokensToPattern($this->tokens));
+        $tokens = \array_merge($this->tokens, [TokenInterface::UNKNOWN_TOKEN => '.*?']);
+        $tokens = \iterator_to_array($this->tokensToPattern($tokens));
 
-        $withUndefined = [TokenInterface::UNKNOWN_TOKEN => '.*?'];
-
-        return \implode('|', \array_merge($tokens, $withUndefined));
+        return \implode('|', $tokens);
     }
 
     /**
