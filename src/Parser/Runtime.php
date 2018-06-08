@@ -113,7 +113,7 @@ abstract class Runtime implements ParserInterface
                 /** @var TokenInterface $token */
                 $token = $buffer->top();
 
-                $error = \sprintf('Unregistered token %s', $token);
+                $error = \sprintf('Unexpected token %s', $token);
                 throw UnexpectedTokenException::fromFile($error, $input, $token->offset());
             }
         } while (true);
