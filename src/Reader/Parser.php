@@ -22,8 +22,8 @@ use Railt\Lexer\TokenInterface;
  */
 class Parser
 {
-    private const STATE_CONFIGURE = 0x00;
-    private const STATE_TOKEN = 0x01;
+    private const STATE_CONFIGURE   = 0x00;
+    private const STATE_TOKEN       = 0x01;
     private const STATE_PRODUCTIONS = 0x02;
 
     /**
@@ -37,8 +37,8 @@ class Parser
     public function __construct()
     {
         $this->resolvers = [
-            self::STATE_CONFIGURE => new PragmaResolver(),
-            self::STATE_TOKEN => new TokenResolver(),
+            self::STATE_CONFIGURE   => new PragmaResolver(),
+            self::STATE_TOKEN       => new TokenResolver(),
             self::STATE_PRODUCTIONS => new RuleResolver(),
         ];
     }

@@ -40,7 +40,7 @@ class PragmaResolver implements ResolverInterface
         if (! \in_array($token->value(1), self::ALLOWED_PRAGMAS, true)) {
             $error = \vsprintf('Unknown configuration pragma rule "%s" with value "%s"', [
                 $token->value(1),
-                $token->value(2)
+                $token->value(2),
             ]);
 
             throw (new UnknownPragmaException($error))->throwsIn($readable, $token->offset());

@@ -14,5 +14,4 @@ namespace Railt\Compiler\Exception;
  */
 class IncludeNotFoundException extends GrammarException
 {
-
 }

@@ -14,5 +14,4 @@ namespace Railt\Compiler\Exception;
  */
 class UnknownPragmaException extends GrammarException
 {
-
 }

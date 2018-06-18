@@ -10,15 +10,13 @@ declare(strict_types=1);
 namespace Railt\Compiler;
 
 use Railt\Compiler\Builder\Buildable;
+use Railt\Compiler\Lexer\NativeStateless;
+use Railt\Compiler\Lexer\Stateless;
+use Railt\Compiler\Parser\Runtime as ParserRuntime;
 use Railt\Compiler\Reader\PragmaParser;
 use Railt\Compiler\Reader\ProductionParser;
 use Railt\Compiler\Reader\RuleAnalyzer;
 use Railt\Compiler\Reader\TokenParser;
-use Railt\Compiler\Lexer\NativeStateless;
-use Railt\Compiler\Lexer\Stateless;
-use Railt\Compiler\Parser;
-use Railt\Compiler\Parser\Runtime as ParserRuntime;
-use Railt\Compiler\ParserInterface;
 
 /**
  * Class Result
