@@ -1,0 +1,3 @@
+TypeDefinitionImplements:
+    ::T_IMPLEMENTS:: TypeInvocation() (::T_AND:: TypeInvocation())*
+    #Implements

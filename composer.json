@@ -17,14 +17,6 @@
     },
     "authors": [
         {
-            "name": "Ivan Enderlin",
-            "email": "ivan.enderlin@hoa-project.net"
-        },
-        {
-            "name": "Hoa community",
-            "homepage": "https://hoa-project.net/"
-        },
-        {
             "name": "Kirill Nesmeyanov",
             "email": "nesk@xakep.ru"
         }
@@ -35,7 +27,11 @@
         "ext-pcre": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "railt/io": "1.2.*|dev-master"
+        "railt/io": "1.2.*",
+        "railt/lexer": "1.2.*",
+        "railt/parser": "1.2.*|dev-master",
+        "twig/twig": "~2.0",
+        "zendframework/zend-code": "~3.0"
     },
     "autoload": {
         "psr-4": {
@@ -46,9 +42,9 @@
         ]
     },
     "require-dev": {
-        "twig/twig": "~2.0",
-        "zendframework/zend-code": "~3.0",
         "symfony/finder": "~4.0",
+        "illuminate/support": "~5.6",
+        "symfony/var-dumper": "~4.0",
         "phpunit/phpunit": "^6.5"
     },
     "autoload-dev": {

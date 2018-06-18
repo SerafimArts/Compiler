@@ -9,10 +9,12 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Exception;
 
+use Railt\Io\Exception\ExternalFileException;
+
 /**
- * Class InclusionException
+ * Class GrammarException
  */
-class GrammarException extends \LogicException
+class GrammarException extends ExternalFileException
 {
-    use CustomErrorPosition;
+
 }

@@ -12,6 +12,7 @@ namespace Railt\Compiler\Exception;
 /**
  * Class UnrecognizedTokenException
  */
-class UnrecognizedTokenException extends LexerException
+class UnrecognizedTokenException extends GrammarException
 {
+
 }
