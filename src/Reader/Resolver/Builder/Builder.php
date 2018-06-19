@@ -39,14 +39,14 @@ abstract class Builder
     public function __construct(int $id, string $name = null)
     {
         $this->name = $name;
-        $this->id = $id;
+        $this->id   = $id;
     }
 
     /**
      * @param int $rule
      * @return Builder
      */
-    public function jump(int $rule): Builder
+    public function jump(int $rule): self
     {
         $this->children[] = $rule;
 
@@ -57,7 +57,7 @@ abstract class Builder
      * @param null|string $name
      * @return Builder
      */
-    public function rename(?string $name): Builder
+    public function rename(?string $name): self
     {
         $this->name = $name;
 

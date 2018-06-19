@@ -8,6 +8,7 @@
 declare(strict_types=1);
 
 namespace Railt\Compiler\Reader;
+
 use Railt\Compiler\Reader\Resolver\PragmaResolver;
 use Railt\Compiler\Reader\Resolver\RuleResolver;
 use Railt\Compiler\Reader\Resolver\TokenResolver;
@@ -15,7 +16,6 @@ use Railt\Lexer\Driver\NativeStateless;
 use Railt\Lexer\LexerInterface;
 use Railt\Parser\Parser;
 use Railt\Parser\ParserInterface;
-use Railt\Parser\Rule\Token;
 
 /**
  * Class Runtime
@@ -43,10 +43,11 @@ class Runtime
      */
     public function __construct(Result $result)
     {
-        $this->rules = $result->rulesResolver();
+        $this->rules  = $result->rulesResolver();
         $this->tokens = $result->tokensResolver();
         $this->config = $result->pragmasResolver();
     }
+
     /**
      * @return LexerInterface
      */

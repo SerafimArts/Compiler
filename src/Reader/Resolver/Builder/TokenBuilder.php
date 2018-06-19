@@ -8,6 +8,7 @@
 declare(strict_types=1);
 
 namespace Railt\Compiler\Reader\Resolver\Builder;
+
 use Railt\Parser\Rule\Symbol;
 use Railt\Parser\Rule\Token;
 

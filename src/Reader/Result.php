@@ -25,7 +25,7 @@ class Result
      * @var Analyzer\Analyzer[]
      */
     private const RULE_ANALYZERS = [
-        GrammarAnalyzer::class
+        GrammarAnalyzer::class,
     ];
 
     /**

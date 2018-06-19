@@ -95,8 +95,8 @@ class RuleResolver implements ResolverInterface
     private function resolveCurrent(Readable $readable, TokenInterface $token): void
     {
         [$name, $delegate] = [\trim($token->value(1), '#'), $token->value(2)];
-        $keep          = $token->value(1)[0] === '#';
-        $this->current = $name;
+        $keep              = $token->value(1)[0] === '#';
+        $this->current     = $name;
 
         if ($keep) {
             $this->keep[] = $this->current;

@@ -116,7 +116,7 @@ class RulesBuilder
      * @param Builder $builder
      * @return RulesBuilder
      */
-    private function add(Builder $builder): RulesBuilder
+    private function add(Builder $builder): self
     {
         $this->current()->jump($builder->getId());
         $this->stack->push($builder);
@@ -197,7 +197,7 @@ class RulesBuilder
         return $builder->getId();
     }
 
-    private function reduceConcat(SlicedIterator $iterator)
+    private function reduceConcat(SlicedIterator $iterator): void
     {
         dd($iterator);
     }
@@ -205,10 +205,10 @@ class RulesBuilder
     /**
      * @return RulesBuilder
      */
-    private function complete(): RulesBuilder
+    private function complete(): self
     {
         /** @var Builder $rule */
-        $rule = $this->stack->pop();
+        $rule     = $this->stack->pop();
         $instance = $rule->build();
 
         if ($rule->getName()) {
@@ -218,7 +218,7 @@ class RulesBuilder
         }
 
         $instance->{'--grammar--'} = $this->text;
-        $this->text = '';
+        $this->text                = '';
 
         return $this;
     }

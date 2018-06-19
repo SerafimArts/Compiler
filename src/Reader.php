@@ -49,7 +49,7 @@ class Reader
      */
     public function __construct()
     {
-        $this->lexer = new Lexer();
+        $this->lexer  = new Lexer();
         $this->parser = new Grammar();
     }
 
@@ -70,7 +70,7 @@ class Reader
      * @throws \Railt\Io\Exception\ExternalFileException
      * @throws \Railt\Io\Exception\NotReadableException
      */
-    public function add(Readable $input): Reader
+    public function add(Readable $input): self
     {
         /** @var Readable $file */
         foreach ($this->lex($input) as $file => $token) {
