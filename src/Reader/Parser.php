@@ -69,6 +69,9 @@ class Parser
         $this->resolvers[$this->getState($token)]->resolve($file, $token);
     }
 
+    /**
+     * @return ParsingResult
+     */
     public function getResult(): ParsingResult
     {
         dd($this->resolvers);

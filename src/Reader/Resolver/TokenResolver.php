@@ -36,7 +36,7 @@ class TokenResolver implements ResolverInterface
         $this->tokens[$token->value(1)] = $token->value(2);
 
         if ($token->value(3)) {
-            $this->groups[$token->value(1)] = $token->value(3);
+            $this->groups[$token->value(1)] = (int)$token->value(3);
         }
     }
 }
