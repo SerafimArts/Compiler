@@ -12,6 +12,7 @@ namespace Railt\Compiler\Reader\Resolver;
 use Railt\Compiler\Exception\GrammarException;
 use Railt\Io\Readable;
 use Railt\Lexer\TokenInterface;
+use Railt\Parser\Ast\Delegate;
 
 /**
  * Class RuleResolver
@@ -93,13 +94,8 @@ class RuleResolver implements ResolverInterface
      */
     private function resolveCurrent(Readable $readable, TokenInterface $token): void
     {
-        [$name, $delegate, $keep] = [
-            \trim($token->value(1), '#'),
-            $token->value(2),
-            $token->value(1){0}
-        === '#',
-        ];
-
+        [$name, $delegate] = [\trim($token->value(1), '#'), $token->value(2)];
+        $keep          = $token->value(1)[0] === '#';
         $this->current = $name;
 
         if ($keep) {
@@ -107,21 +103,47 @@ class RuleResolver implements ResolverInterface
         }
 
         if ($delegate) {
-            if (! \class_exists($delegate)) {
-                $error = \sprintf('Could not found class "%s" to delegate rule "%s"', $delegate, $name);
-                throw (new GrammarException($error))->throwsIn($readable, $token->offset());
-            }
-
-            $this->delegates[$this->current] = $delegate;
+            $this->resolveDelegate($delegate, $readable, $token);
         }
     }
 
     /**
-     * @return array|array[]
+     * @param string $delegate
+     * @param Readable $readable
+     * @param TokenInterface $token
+     * @throws \Railt\Io\Exception\ExternalFileException
+     */
+    private function resolveDelegate(string $delegate, Readable $readable, TokenInterface $token): void
+    {
+        if (! \class_exists($delegate)) {
+            $error = 'Could not found delegate class "%s"';
+            throw (new GrammarException(\sprintf($error, $delegate)))
+                ->throwsIn($readable, $token->offset());
+        }
+
+        if (! \is_subclass_of($delegate, Delegate::class)) {
+            $error = 'Delegate should be an instance of %s, but %s given';
+            throw (new GrammarException(\sprintf($error, Delegate::class, $delegate)))
+                ->throwsIn($readable, $token->offset());
+        }
+
+        $this->delegates[$this->current] = $delegate;
+    }
+
+    /**
+     * @return array
      */
     public function getRules(): array
     {
         return $this->rules;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParsedRules(): array
+    {
+        return dd((new RulesBuilder($this))->build());
     }
 
     /**

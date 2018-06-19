@@ -23,7 +23,7 @@ class PragmaResolver implements ResolverInterface
     /**
      * @var string
      */
-    private const PARSER_RESOLVER = 'parser';
+    public const GROUP_PARSER = 'parser';
 
     /**
      * @var array|ConfigResolver[]
@@ -49,7 +49,7 @@ class PragmaResolver implements ResolverInterface
     private function bootResolvers(): void
     {
         $this->resolvers = [
-            self::PARSER_RESOLVER => new ConfigResolver(self::PARSER_RESOLVER, [
+            self::GROUP_PARSER => new ConfigResolver(self::GROUP_PARSER, [
                 Configuration::PRAGMA_ROOT,
                 Configuration::PRAGMA_LOOKAHEAD,
                 Configuration::PRAGMA_RUNTIME,

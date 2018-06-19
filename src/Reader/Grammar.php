@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Reader;
 
-use Railt\Compiler\ParsingResult;
 use Railt\Compiler\Reader\Resolver\PragmaResolver;
 use Railt\Compiler\Reader\Resolver\ResolverInterface;
 use Railt\Compiler\Reader\Resolver\RuleResolver;
@@ -18,9 +17,9 @@ use Railt\Io\Readable;
 use Railt\Lexer\TokenInterface;
 
 /**
- * Class Parser
+ * Class Grammar
  */
-class Parser
+class Grammar
 {
     private const STATE_CONFIGURE   = 0x00;
     private const STATE_TOKEN       = 0x01;
@@ -44,6 +43,15 @@ class Parser
     }
 
     /**
+     * @param Readable $file
+     * @param TokenInterface $token
+     */
+    public function process(Readable $file, TokenInterface $token): void
+    {
+        $this->resolvers[$this->getState($token)]->resolve($file, $token);
+    }
+
+    /**
      * @param TokenInterface $token
      * @return int
      */
@@ -61,19 +69,10 @@ class Parser
     }
 
     /**
-     * @param Readable $file
-     * @param TokenInterface $token
+     * @return Result
      */
-    public function process(Readable $file, TokenInterface $token): void
+    public function getResult(): Result
     {
-        $this->resolvers[$this->getState($token)]->resolve($file, $token);
-    }
-
-    /**
-     * @return ParsingResult
-     */
-    public function getResult(): ParsingResult
-    {
-        dd($this->resolvers);
+        return new Result(...$this->resolvers);
     }
 }

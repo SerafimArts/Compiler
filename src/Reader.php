@@ -11,7 +11,8 @@ namespace Railt\Compiler;
 
 use Railt\Compiler\Exception\IncludeNotFoundException;
 use Railt\Compiler\Exception\UnrecognizedTokenException;
-use Railt\Compiler\Reader\Parser;
+use Railt\Compiler\Reader\Grammar;
+use Railt\Compiler\Reader\Result;
 use Railt\Io\File;
 use Railt\Io\Readable;
 use Railt\Lexer\LexerInterface;
@@ -39,29 +40,52 @@ class Reader
     private $lexer;
 
     /**
+     * @var Grammar
+     */
+    private $parser;
+
+    /**
      * Reader constructor.
      */
     public function __construct()
     {
         $this->lexer = new Lexer();
+        $this->parser = new Grammar();
     }
 
     /**
      * @param Readable $input
-     * @return ParsingResult
-     * @throws \Railt\Io\Exception\NotReadableException
+     * @return Result
      * @throws \Railt\Io\Exception\ExternalFileException
+     * @throws \Railt\Io\Exception\NotReadableException
      */
-    public function read(Readable $input): ParsingResult
+    public function read(Readable $input): Result
     {
-        $parser = new Parser();
+        return $this->add($input)->getResult();
+    }
 
+    /**
+     * @param Readable $input
+     * @return Reader
+     * @throws \Railt\Io\Exception\ExternalFileException
+     * @throws \Railt\Io\Exception\NotReadableException
+     */
+    public function add(Readable $input): Reader
+    {
         /** @var Readable $file */
         foreach ($this->lex($input) as $file => $token) {
-            $parser->process($file, $token);
+            $this->parser->process($file, $token);
         }
 
-        return $parser->getResult();
+        return $this;
+    }
+
+    /**
+     * @return Result
+     */
+    public function getResult(): Result
+    {
+        return $this->parser->getResult();
     }
 
     /**

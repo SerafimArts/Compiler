@@ -28,15 +28,59 @@ class TokenResolver implements ResolverInterface
     private $groups = [];
 
     /**
+     * @var array
+     */
+    private $skip = [];
+
+    /**
      * @param Readable $readable
      * @param TokenInterface $token
      */
     public function resolve(Readable $readable, TokenInterface $token): void
     {
-        $this->tokens[$token->value(1)] = $token->value(2);
+        [$name, $value, $group] = $this->info($token);
 
-        if ($token->value(3)) {
-            $this->groups[$token->value(1)] = (int)$token->value(3);
+        $this->tokens[$name] = $value;
+
+        if ($group !== null) {
+            $this->groups[$name] = (int)$group;
         }
+
+        if ($token->name() === 'T_SKIP') {
+            $this->skip[] = $name;
+        }
+    }
+
+    /**
+     * @param TokenInterface $token
+     * @return array
+     */
+    private function info(TokenInterface $token): array
+    {
+        return [$token->value(1), $token->value(2), $token->value(3)];
+    }
+
+    /**
+     * @return array
+     */
+    public function getTokens(): array
+    {
+        return $this->tokens;
+    }
+
+    /**
+     * @return array
+     */
+    public function getGroups(): array
+    {
+        return $this->groups;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSkip(): array
+    {
+        return $this->skip;
     }
 }
