@@ -31,7 +31,7 @@ final class ConfigResolver
      */
     public function __construct(string $prefix, array $allowed)
     {
-        $this->prefix = \trim($prefix, '.') . '.';
+        $this->prefix  = \trim($prefix, '.') . '.';
         $this->allowed = $allowed;
     }
 

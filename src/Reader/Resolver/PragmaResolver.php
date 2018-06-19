@@ -52,8 +52,8 @@ class PragmaResolver implements ResolverInterface
             self::PARSER_RESOLVER => new ConfigResolver(self::PARSER_RESOLVER, [
                 Configuration::PRAGMA_ROOT,
                 Configuration::PRAGMA_LOOKAHEAD,
-                Configuration::PRAGMA_RUNTIME
-            ])
+                Configuration::PRAGMA_RUNTIME,
+            ]),
         ];
     }
 

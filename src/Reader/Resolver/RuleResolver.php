@@ -96,7 +96,8 @@ class RuleResolver implements ResolverInterface
         [$name, $delegate, $keep] = [
             \trim($token->value(1), '#'),
             $token->value(2),
-            $token->value(1){0} === '#'
+            $token->value(1){0}
+        === '#',
         ];
 
         $this->current = $name;
