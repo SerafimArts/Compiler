@@ -23,20 +23,19 @@ interface ProvideRules
     public function all(): array;
 
     /**
-     * @param string $rule
-     * @return bool
+     * @return iterable
      */
-    public function hasDelegate(string $rule): bool;
-
-    /**
-     * @param string $rule
-     * @return string
-     */
-    public function getDelegate(string $rule): string;
+    public function getDelegates(): iterable;
 
     /**
      * @param string $rule
      * @return Readable
      */
     public function getFile(string $rule): Readable;
+
+    /**
+     * @param string $rule
+     * @return bool
+     */
+    public function has(string $rule): bool;
 }

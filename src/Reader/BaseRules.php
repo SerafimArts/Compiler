@@ -91,26 +91,25 @@ abstract class BaseRules implements ProvideRules
      */
     public function all(): array
     {
-        return $this->rules;
+        return dd($this->rules);
     }
 
     /**
      * @param string $rule
      * @return bool
      */
-    public function hasDelegate(string $rule): bool
+    public function has(string $rule): bool
     {
-        return \array_key_exists($rule, $this->delegates);
+        return \array_key_exists($rule, $this->rules);
     }
 
     /**
-     * @param string $rule
-     * @return string
+     * @return iterable
      */
-    public function getDelegate(string $rule): string
-    {
-        return $this->delegates[$rule] ?? Rule::class;
-    }
+     public function getDelegates(): iterable
+     {
+         return $this->delegates;
+     }
 
     /**
      * @param string $rule

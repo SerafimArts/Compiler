@@ -30,4 +30,10 @@ interface ProvideTokens
      * @return int
      */
     public function getGroup(string $token): int;
+
+    /**
+     * @param string $token
+     * @return bool
+     */
+    public function has(string $token): bool;
 }

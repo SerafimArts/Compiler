@@ -23,17 +23,17 @@ use Railt\Parser\ParserInterface;
 class Runtime
 {
     /**
-     * @var RuleResolver
+     * @var ProvideRules
      */
     private $rules;
 
     /**
-     * @var PragmaResolver
+     * @var ProvidePragmas
      */
     private $config;
 
     /**
-     * @var TokenResolver
+     * @var ProvideTokens
      */
     private $tokens;
 
@@ -43,9 +43,9 @@ class Runtime
      */
     public function __construct(Result $result)
     {
-        $this->rules  = $result->getRulesResolver();
-        $this->tokens = $result->getTokensResolver();
-        $this->config = $result->getPragmasResolver();
+        $this->rules  = $result->getRules();
+        $this->tokens = $result->getTokens();
+        $this->config = $result->getPragmas();
     }
 
     /**
@@ -54,8 +54,7 @@ class Runtime
      */
     public function getParser(): ParserInterface
     {
-        $configs = $this->config->all(PragmaResolver::GROUP_PARSER);
-        $parser  = new Parser($this->getLexer(), $this->analyzer->getRules(), $configs);
+        $parser = new Parser($this->getLexer(), $this->rules->all(), $this->config->parser());
 
         foreach ($this->rules->getDelegates() as $name => $delegate) {
             $parser->addDelegate($name, $delegate);
@@ -71,8 +70,8 @@ class Runtime
     {
         $lexer = new NativeStateless();
 
-        foreach ($this->tokens->getTokens() as $name => $pcre) {
-            $lexer->add($name, $pcre, \in_array($name, $this->tokens->getSkip(), true));
+        foreach ($this->tokens->all() as $name => $pcre) {
+            $lexer->add($name, $pcre, ! $this->tokens->isKeep($name));
         }
 
         return $lexer;

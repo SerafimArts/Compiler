@@ -80,4 +80,13 @@ abstract class BaseTokens implements ProvideTokens
     {
         return $this->groups[$token] ?? 0;
     }
+
+    /**
+     * @param string $token
+     * @return bool
+     */
+    public function has(string $token): bool
+    {
+        return \array_key_exists($token, $this->tokens);
+    }
 }

@@ -99,6 +99,7 @@ class RuleResolver extends BaseRules implements ResolverInterface
     private function resolveCurrent(Readable $readable, TokenInterface $token): void
     {
         $this->current = \trim($token->value(1), '#');
+        $this->ruleTokens[$this->current] = [];
 
         if ($token->value(1)[0] === '#') {
             $this->keep[] = $this->current;
@@ -115,10 +116,11 @@ class RuleResolver extends BaseRules implements ResolverInterface
 
     /**
      * @return array|Symbol[]
+     * @throws \InvalidArgumentException
      */
     private function analyze(): array
     {
-        $analyzer = new Analyzer(parent::all(), $this->keep);
+        $analyzer = new Analyzer($this->keep, $this->tokens);
 
         foreach ($this->ruleTokens as $rule => $tokens) {
             $analyzer->add($rule, $tokens);
@@ -131,6 +133,7 @@ class RuleResolver extends BaseRules implements ResolverInterface
 
     /**
      * @return array
+     * @throws \InvalidArgumentException
      */
     public function all(): array
     {

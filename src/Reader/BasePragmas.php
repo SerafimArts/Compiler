@@ -107,7 +107,7 @@ abstract class BasePragmas implements ProvidePragmas
      */
     public function parser(): array
     {
-        return $this->resolvers[self::GROUP_GRAMMAR] ?? [];
+        return $this->configs[self::GROUP_GRAMMAR] ?? [];
     }
 
     /**
@@ -115,7 +115,7 @@ abstract class BasePragmas implements ProvidePragmas
      */
     public function lexer(): array
     {
-        return $this->resolvers[self::GROUP_LEXER] ?? [];
+        return $this->configs[self::GROUP_LEXER] ?? [];
     }
 
     /**
@@ -123,7 +123,7 @@ abstract class BasePragmas implements ProvidePragmas
      */
     public function grammar(): array
     {
-        return $this->resolvers[self::GROUP_GRAMMAR] ?? [];
+        return $this->configs[self::GROUP_GRAMMAR] ?? [];
     }
 
     /**
