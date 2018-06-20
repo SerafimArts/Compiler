@@ -56,9 +56,9 @@ class Analyzer
      */
     public function __construct(array $keep, ProvideTokens $tokens)
     {
-        $this->keep = $keep;
+        $this->keep    = $keep;
         $this->mapping = new Mapping();
-        $this->tokens = $tokens;
+        $this->tokens  = $tokens;
     }
 
     /**

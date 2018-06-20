@@ -12,7 +12,6 @@ namespace Railt\Compiler\Reader;
 use Railt\Compiler\Exception\GrammarException;
 use Railt\Io\Readable;
 use Railt\Parser\Ast\Delegate;
-use Railt\Parser\Ast\Rule;
 use Railt\Parser\Rule\Production;
 use Railt\Parser\Rule\Symbol;
 use Railt\Parser\Rule\Terminal;
@@ -106,10 +105,10 @@ abstract class BaseRules implements ProvideRules
     /**
      * @return iterable
      */
-     public function getDelegates(): iterable
-     {
-         return $this->delegates;
-     }
+    public function getDelegates(): iterable
+    {
+        return $this->delegates;
+    }
 
     /**
      * @param string $rule

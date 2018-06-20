@@ -98,7 +98,7 @@ class RuleResolver extends BaseRules implements ResolverInterface
      */
     private function resolveCurrent(Readable $readable, TokenInterface $token): void
     {
-        $this->current = \trim($token->value(1), '#');
+        $this->current                    = \trim($token->value(1), '#');
         $this->ruleTokens[$this->current] = [];
 
         if ($token->value(1)[0] === '#') {

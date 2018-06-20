@@ -43,7 +43,7 @@ class Group
     {
         $this->iterator = $iterator;
         $this->analyzer = $analyzer;
-        $this->rule = $rule;
+        $this->rule     = $rule;
     }
 
     /**
