@@ -42,9 +42,9 @@ class LookaheadIterator implements \Iterator
     public function __construct(iterable $iterator)
     {
         $this->iterator = $this->toIterator($iterator);
-        $this->current = $this->iterator->current();
-        $this->key = $this->iterator->key();
-        $this->valid = $this->iterator->valid();
+        $this->current  = $this->iterator->current();
+        $this->key      = $this->iterator->key();
+        $this->valid    = $this->iterator->valid();
 
         $this->rewind();
     }
