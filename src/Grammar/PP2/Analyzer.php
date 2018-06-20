@@ -11,7 +11,6 @@ namespace Railt\Compiler\Grammar\PP2;
 
 use Railt\Compiler\Iterator\LookaheadIterator;
 use Railt\Compiler\Reader\ProvideTokens;
-use Railt\Lexer\TokenInterface;
 use Railt\Parser\Rule\Production;
 use Railt\Parser\Rule\Symbol;
 use Railt\Parser\Rule\Terminal;
