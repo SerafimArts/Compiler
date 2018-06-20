@@ -43,9 +43,25 @@ class Runtime
      */
     public function __construct(Result $result)
     {
-        $this->rules  = $result->rulesResolver();
-        $this->tokens = $result->tokensResolver();
-        $this->config = $result->pragmasResolver();
+        $this->rules  = $result->getRulesResolver();
+        $this->tokens = $result->getTokensResolver();
+        $this->config = $result->getPragmasResolver();
+    }
+
+    /**
+     * @return ParserInterface
+     * @throws \InvalidArgumentException
+     */
+    public function getParser(): ParserInterface
+    {
+        $configs = $this->config->all(PragmaResolver::GROUP_PARSER);
+        $parser  = new Parser($this->getLexer(), $this->analyzer->getRules(), $configs);
+
+        foreach ($this->rules->getDelegates() as $name => $delegate) {
+            $parser->addDelegate($name, $delegate);
+        }
+
+        return $parser;
     }
 
     /**
@@ -60,22 +76,5 @@ class Runtime
         }
 
         return $lexer;
-    }
-
-    /**
-     * @return ParserInterface
-     * @throws \InvalidArgumentException
-     */
-    public function getParser(): ParserInterface
-    {
-        $configs = $this->config->all(PragmaResolver::GROUP_PARSER);
-
-        $parser = new Parser($this->getLexer(), $this->rules->getParsedRules(), $configs);
-
-        foreach ($this->rules->getDelegates() as $name => $delegate) {
-            $parser->addDelegate($name, $delegate);
-        }
-
-        return $parser;
     }
 }

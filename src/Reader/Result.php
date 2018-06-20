@@ -9,10 +9,6 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Reader;
 
-use Railt\Compiler\Reader\Analyzer\GrammarAnalyzer;
-use Railt\Compiler\Reader\Resolver\PragmaResolver;
-use Railt\Compiler\Reader\Resolver\RuleResolver;
-use Railt\Compiler\Reader\Resolver\TokenResolver;
 use Railt\Lexer\LexerInterface;
 use Railt\Parser\ParserInterface;
 
@@ -22,34 +18,27 @@ use Railt\Parser\ParserInterface;
 class Result
 {
     /**
-     * @var Analyzer\Analyzer[]
-     */
-    private const RULE_ANALYZERS = [
-        GrammarAnalyzer::class,
-    ];
-
-    /**
-     * @var PragmaResolver
+     * @var ProvidePragmas
      */
     private $pragmas;
 
     /**
-     * @var TokenResolver
+     * @var ProvideTokens
      */
     private $tokens;
 
     /**
-     * @var RuleResolver
+     * @var ProvideRules
      */
     private $rules;
 
     /**
      * Result constructor.
-     * @param PragmaResolver $pragmas
-     * @param TokenResolver $tokens
-     * @param RuleResolver $rules
+     * @param ProvidePragmas $pragmas
+     * @param ProvideTokens $tokens
+     * @param ProvideRules $rules
      */
-    public function __construct(PragmaResolver $pragmas, TokenResolver $tokens, RuleResolver $rules)
+    public function __construct(ProvidePragmas $pragmas, ProvideTokens $tokens, ProvideRules $rules)
     {
         $this->pragmas = $pragmas;
         $this->tokens  = $tokens;
@@ -57,27 +46,27 @@ class Result
     }
 
     /**
-     * @return TokenResolver
+     * @return ProvidePragmas
      */
-    public function tokensResolver(): TokenResolver
+    public function getPragmas(): ProvidePragmas
+    {
+        return $this->pragmas;
+    }
+
+    /**
+     * @return ProvideTokens
+     */
+    public function getTokens(): ProvideTokens
     {
         return $this->tokens;
     }
 
     /**
-     * @return RuleResolver
+     * @return ProvideRules
      */
-    public function rulesResolver(): RuleResolver
+    public function getRules(): ProvideRules
     {
         return $this->rules;
-    }
-
-    /**
-     * @return PragmaResolver
-     */
-    public function pragmasResolver(): PragmaResolver
-    {
-        return $this->pragmas;
     }
 
     /**

@@ -7,12 +7,12 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Reader\Resolver\PragmaResolver;
+namespace Railt\Compiler\Reader;
 
 /**
- * Class ConfigResolver
+ * Class Config
  */
-final class ConfigResolver
+final class Config
 {
     /**
      * @var string

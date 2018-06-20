@@ -7,31 +7,17 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Reader\Resolver;
+namespace Railt\Compiler\Grammar\PP2;
 
+use Railt\Compiler\Reader\BaseTokens;
 use Railt\Io\Readable;
 use Railt\Lexer\TokenInterface;
 
 /**
  * Class TokenResolver
  */
-class TokenResolver implements ResolverInterface
+class TokenResolver extends BaseTokens implements ResolverInterface
 {
-    /**
-     * @var array
-     */
-    private $tokens = [];
-
-    /**
-     * @var array
-     */
-    private $groups = [];
-
-    /**
-     * @var array
-     */
-    private $skip = [];
-
     /**
      * @param Readable $readable
      * @param TokenInterface $token
@@ -40,14 +26,14 @@ class TokenResolver implements ResolverInterface
     {
         [$name, $value, $group] = $this->info($token);
 
-        $this->tokens[$name] = $value;
+        $this->setToken($name, $value);
 
         if ($group !== null) {
-            $this->groups[$name] = (int)$group;
+            $this->setGroup($name, (int)$group);
         }
 
         if ($token->name() === 'T_SKIP') {
-            $this->skip[] = $name;
+            $this->makeSkipped($name);
         }
     }
 
@@ -58,29 +44,5 @@ class TokenResolver implements ResolverInterface
     private function info(TokenInterface $token): array
     {
         return [$token->value(1), $token->value(2), $token->value(3)];
-    }
-
-    /**
-     * @return array
-     */
-    public function getTokens(): array
-    {
-        return $this->tokens;
-    }
-
-    /**
-     * @return array
-     */
-    public function getGroups(): array
-    {
-        return $this->groups;
-    }
-
-    /**
-     * @return array
-     */
-    public function getSkip(): array
-    {
-        return $this->skip;
     }
 }

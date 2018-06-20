@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler;
+namespace Railt\Compiler\Grammar\PP2;
 
 use Railt\Lexer\Driver\NativeStateless;
 

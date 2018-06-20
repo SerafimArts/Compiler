@@ -7,19 +7,16 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Reader;
+namespace Railt\Compiler\Grammar\PP2;
 
-use Railt\Compiler\Reader\Resolver\PragmaResolver;
-use Railt\Compiler\Reader\Resolver\ResolverInterface;
-use Railt\Compiler\Reader\Resolver\RuleResolver;
-use Railt\Compiler\Reader\Resolver\TokenResolver;
+use Railt\Compiler\Reader\Result;
 use Railt\Io\Readable;
 use Railt\Lexer\TokenInterface;
 
 /**
- * Class Grammar
+ * Class Parser
  */
-class Grammar
+class Parser
 {
     private const STATE_CONFIGURE   = 0x00;
     private const STATE_TOKEN       = 0x01;
@@ -35,10 +32,14 @@ class Grammar
      */
     public function __construct()
     {
+        $tokens = new TokenResolver();
+        $pragmas = new PragmaResolver();
+        $rules = new RuleResolver($tokens);
+
         $this->resolvers = [
-            self::STATE_CONFIGURE   => new PragmaResolver(),
-            self::STATE_TOKEN       => new TokenResolver(),
-            self::STATE_PRODUCTIONS => new RuleResolver(),
+            self::STATE_TOKEN       => $tokens,
+            self::STATE_CONFIGURE   => $pragmas,
+            self::STATE_PRODUCTIONS => $rules,
         ];
     }
 
@@ -73,6 +74,10 @@ class Grammar
      */
     public function getResult(): Result
     {
-        return new Result(...$this->resolvers);
+        return new Result(
+            $this->resolvers[self::STATE_CONFIGURE],
+            $this->resolvers[self::STATE_TOKEN],
+            $this->resolvers[self::STATE_PRODUCTIONS]
+        );
     }
 }
