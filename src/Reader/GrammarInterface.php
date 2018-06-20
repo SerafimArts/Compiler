@@ -20,7 +20,7 @@ interface GrammarInterface
      * @param Readable $grammar
      * @return GrammarInterface
      */
-    public function add(Readable $grammar): GrammarInterface;
+    public function add(Readable $grammar): self;
 
     /**
      * @return Result

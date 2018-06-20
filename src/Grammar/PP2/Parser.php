@@ -32,9 +32,9 @@ class Parser
      */
     public function __construct()
     {
-        $tokens = new TokenResolver();
+        $tokens  = new TokenResolver();
         $pragmas = new PragmaResolver();
-        $rules = new RuleResolver($tokens);
+        $rules   = new RuleResolver($tokens);
 
         $this->resolvers = [
             self::STATE_TOKEN       => $tokens,

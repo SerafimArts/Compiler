@@ -31,7 +31,7 @@ class Reader implements GrammarInterface
     {
         \assert(\is_subclass_of($language, GrammarInterface::class));
 
-        $this->grammar = new $language;
+        $this->grammar = new $language();
     }
 
     /**

@@ -8,6 +8,7 @@
 declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar\PP2;
+
 use Railt\Parser\Rule\Production;
 use Railt\Parser\Rule\Symbol;
 use Railt\Parser\Rule\Terminal;
@@ -39,12 +40,11 @@ class Analyzer
     public function __construct(array $parsed, array $keep)
     {
         $this->parsed = $parsed;
-        $this->keep = $keep;
+        $this->keep   = $keep;
     }
 
-    public function add(string $rule, iterable $tokens)
+    public function add(string $rule, iterable $tokens): void
     {
-        //
     }
 
     /**

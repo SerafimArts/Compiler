@@ -134,9 +134,9 @@ class RuleResolver extends BaseRules implements ResolverInterface
      */
     public function all(): array
     {
-       foreach ($this->analyze() as $symbol) {
-           $this->add($symbol);
-       }
+        foreach ($this->analyze() as $symbol) {
+            $this->add($symbol);
+        }
 
         return parent::all();
     }
