@@ -38,4 +38,10 @@ interface ProvideRules
      * @return bool
      */
     public function has(string $rule): bool;
+
+    /**
+     * @param string $rule
+     * @return bool
+     */
+    public function isKeep(string $rule): bool;
 }

@@ -9,11 +9,20 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar\PP2;
 
+use Railt\Compiler\Exception\GrammarException;
+use Railt\Compiler\Grammar\PP2\Builder\AlternationBuilder;
+use Railt\Compiler\Grammar\PP2\Builder\Builder;
+use Railt\Compiler\Grammar\PP2\Builder\ConcatenationBuilder;
+use Railt\Compiler\Grammar\PP2\Builder\TokenBuilder;
 use Railt\Compiler\Iterator\LookaheadIterator;
+use Railt\Compiler\Reader\ProvideRules;
 use Railt\Compiler\Reader\ProvideTokens;
+use Railt\Io\Readable;
+use Railt\Lexer\TokenInterface;
 use Railt\Parser\Rule\Production;
 use Railt\Parser\Rule\Symbol;
 use Railt\Parser\Rule\Terminal;
+use Railt\Parser\Rule\Token;
 
 /**
  * Class Analyzer
@@ -28,11 +37,9 @@ class Analyzer
     private $parsed = [];
 
     /**
-     * A list of kept rule names.
-     *
-     * @var array
+     * @var array|Builder[]
      */
-    private $keep;
+    private $builders = [];
 
     /**
      * @var Mapping
@@ -50,15 +57,30 @@ class Analyzer
     private $tokens;
 
     /**
-     * Analyzer constructor.
-     * @param array $keep
-     * @param ProvideTokens $tokens
+     * @var Readable
      */
-    public function __construct(array $keep, ProvideTokens $tokens)
+    private $file;
+
+    /**
+     * @var ProvideRules
+     */
+    private $rules;
+
+    /**
+     * @var Builder
+     */
+    private $lastRule;
+
+    /**
+     * Analyzer constructor.
+     * @param ProvideTokens $tokens
+     * @param ProvideRules $rules
+     */
+    public function __construct(ProvideTokens $tokens, ProvideRules $rules)
     {
-        $this->keep = $keep;
         $this->mapping = new Mapping();
-        $this->tokens = $tokens;
+        $this->tokens  = $tokens;
+        $this->rules = $rules;
     }
 
     /**
@@ -82,31 +104,79 @@ class Analyzer
     /**
      * @return array
      * @throws \InvalidArgumentException
+     * @throws \Railt\Io\Exception\ExternalFileException
      */
     public function getResult(): array
     {
         $this->parsed = [];
         $this->parse();
 
+        foreach ($this->builders as $builder) {
+            $this->parsed[] = $builder->reduce();
+        }
+
         return $this->parsed;
     }
 
     /**
      * @throws \InvalidArgumentException
+     * @throws \Railt\Io\Exception\ExternalFileException
      */
     private function parse(): void
     {
-        foreach ($this->ruleTokens as $rule => $tokens) {
-            $this->store($this->build($rule, $tokens));
+        foreach ($this->ruleTokens as $name => $tokens) {
+            $this->file = $this->rules->getFile($name);
+
+            $iterator = new LookaheadIterator($tokens);
+            $rule = $this->sequence($iterator);
+
+            if ($this->rules->isKeep($name) && ! $rule->hasName()) {
+                $rule->rename($name);
+            }
+
+            $this->store($rule);
         }
     }
 
     /**
-     * @param Symbol $symbol
+     * @param Builder $builder
+     * @return Builder
      */
-    public function store(Symbol $symbol): void
+    private function store(Builder $builder): Builder
     {
-        $this->parsed[] = $symbol;
+        return $this->builders[] = $this->lastRule = $builder;
+    }
+
+    /**
+     * @param LookaheadIterator $tokens
+     * @return Builder
+     * @throws \InvalidArgumentException
+     * @throws \Railt\Io\Exception\ExternalFileException
+     */
+    private function choice(LookaheadIterator $tokens): Builder
+    {
+        $choice = new AlternationBuilder($this->mapping);
+        $choice->addChildBuilder($this->lastRule);
+        $tokens->next();
+
+        while ($tokens->valid()) {
+            $child = $this->terminal($tokens);
+
+            if ($child) {
+                $choice->addChildBuilder($this->store($child));
+            }
+
+            $continue = $tokens->getNext() && $tokens->getNext()->name() === Lexer::T_OR;
+
+            if (! $continue) {
+                break;
+            }
+
+            $tokens->next();
+            $tokens->next();
+        }
+
+        return $choice;
     }
 
     /**
@@ -118,41 +188,138 @@ class Analyzer
     }
 
     /**
-     * @param string $rule
-     * @param array $tokens
-     * @return Production
+     * @param LookaheadIterator $tokens
+     * @return Builder
      * @throws \InvalidArgumentException
+     * @throws \Railt\Io\Exception\ExternalFileException
      */
-    public function build(string $rule, array $tokens): Production
+    private function sequence(LookaheadIterator $tokens): Builder
     {
-        return $this->group(new LookaheadIterator($tokens), $rule)->reduce();
+        $children = [];
+
+        while ($tokens->valid()) {
+            $child = $this->terminal($tokens);
+
+            if ($child) {
+                $children[] = $this->store($child);
+            }
+
+            $tokens->next();
+        }
+
+        if (\count($children) > 1) {
+            $sequence = new ConcatenationBuilder($this->mapping);
+            $sequence->addChildrenBuilders($children);
+
+            return $sequence;
+        }
+
+        return \reset($children);
+    }
+
+    private function repeat(LookaheadIterator $tokens): Builder
+    {
+
     }
 
     /**
-     * @param string $rule
-     * @return int
+     * @param LookaheadIterator $tokens
+     * @return Builder
      * @throws \InvalidArgumentException
+     * @throws \Railt\Io\Exception\ExternalFileException
      */
-    public function fetchId(string $rule): int
+    private function group(LookaheadIterator $tokens): Builder
     {
-        if ($this->mapping->has($rule)) {
-            return $this->mapping->id($rule);
+        $children = [];
+
+        $tokens->next();
+        while ($tokens->valid() && $tokens->current()->name() !== Lexer::T_GROUP_CLOSE) {
+            $children[] = $tokens->current();
+            $tokens->next();
         }
 
-        return $this->build($rule, $this->ruleTokens[$rule])->getId();
+        return $this->sequence(new LookaheadIterator($children));
     }
 
     /**
-     * @param LookaheadIterator $iterator
-     * @param string|null $rule
-     * @return Group
+     * @param LookaheadIterator $tokens
+     * @return null|Builder
+     * @throws \InvalidArgumentException
+     * @throws \Railt\Io\Exception\ExternalFileException
      */
-    public function group(LookaheadIterator $iterator, string $rule = null): Group
+    private function terminal(LookaheadIterator $tokens): ?Builder
     {
-        if ($rule && ! \in_array($rule, $this->keep, true)) {
-            $rule = null;
+        /** @var TokenInterface $current */
+        $current = $tokens->current();
+
+        switch ($current->name()) {
+            case Lexer::T_OR:
+                return $this->choice($tokens);
+
+            case Lexer::T_ZERO_OR_ONE:
+            case Lexer::T_ONE_OR_MORE:
+            case Lexer::T_ZERO_OR_MORE:
+            case Lexer::T_N_TO_M:
+            case Lexer::T_ZERO_TO_M:
+            case Lexer::T_N_OR_MORE:
+            case Lexer::T_EXACTLY_N:
+                return $this->repeat($tokens);
+
+            case Lexer::T_KEPT:
+                return $this->token($current, true);
+
+            case Lexer::T_SKIPPED:
+                return $this->token($current, false);
+
+            case Lexer::T_INVOKE:
+                return $this->invoke($current);
+
+            case Lexer::T_GROUP_OPEN:
+                return $this->group($tokens);
+
+            case Lexer::T_RENAME:
+                $this->lastRule->rename($current->value(1));
+                return null;
         }
 
-        return new Group($iterator, $this, $rule);
+        throw (new GrammarException(\sprintf('Unrecognized terminal %s', $current)))
+            ->throwsIn($this->file, $current->offset());
+    }
+
+    /**
+     * @param TokenInterface $token
+     * @param bool $keep
+     * @return TokenBuilder
+     * @throws \Railt\Io\Exception\ExternalFileException
+     */
+    private function token(TokenInterface $token, bool $keep): TokenBuilder
+    {
+        $name = $token->value(1);
+
+        if (! $this->tokens->has($name)) {
+            $error = \sprintf('Token "%s" is not defined', $name);
+            throw (new GrammarException($error))
+                ->throwsIn($this->file, $token->offset());
+        }
+
+        return new TokenBuilder($this->mapping, $name, $keep);
+    }
+
+    /**
+     * @param TokenInterface $invocation
+     * @return Builder
+     * @throws \Railt\Io\Exception\ExternalFileException
+     */
+    private function invoke(TokenInterface $invocation): Builder
+    {
+        $name = $invocation->value(1);
+
+        if (! $this->rules->has($name)) {
+            $error = \sprintf('Rule "%s" is not defined', $name);
+            throw (new GrammarException($error))
+                ->throwsIn($this->file, $invocation->offset());
+        }
+
+        // TODO
     }
 }

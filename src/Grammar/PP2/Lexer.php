@@ -37,8 +37,8 @@ class Lexer extends NativeStateless
     public const T_EXACTLY_N       = 'T_EXACTLY_N';
     public const T_SKIPPED         = 'T_SKIPPED';
     public const T_KEPT            = 'T_KEPT';
-    public const T_NAMED           = 'T_NAMED';
-    public const T_NODE            = 'T_NODE';
+    public const T_INVOKE          = 'T_INVOKE';
+    public const T_RENAME          = 'T_RENAME';
     public const T_GROUP_OPEN      = 'T_GROUP_OPEN';
     public const T_GROUP_CLOSE     = 'T_GROUP_CLOSE';
     /**#@-*/
@@ -65,8 +65,8 @@ class Lexer extends NativeStateless
         self::T_EXACTLY_N       => '{(\d+)}',
         self::T_SKIPPED         => '::(\w+)::',
         self::T_KEPT            => '<(\w+)>',
-        self::T_NAMED           => '(\w+)\\(\\)',
-        self::T_NODE            => '#(\w+)',
+        self::T_INVOKE          => '(\w+)\\(\\)',
+        self::T_RENAME          => '#(\w+)',
         self::T_GROUP_OPEN      => '\\(',
         self::T_GROUP_CLOSE     => '\\)',
     ];

@@ -51,6 +51,15 @@ class RuleResolver extends BaseRules implements ResolverInterface
     }
 
     /**
+     * @param string $rule
+     * @return bool
+     */
+    public function isKeep(string $rule): bool
+    {
+        return \in_array($rule, $this->keep, true);
+    }
+
+    /**
      * @param Readable $readable
      * @param TokenInterface $token
      * @throws \Railt\Io\Exception\ExternalFileException
@@ -115,12 +124,13 @@ class RuleResolver extends BaseRules implements ResolverInterface
     }
 
     /**
-     * @return array|Symbol[]
+     * @return array
+     * @throws ExternalFileException
      * @throws \InvalidArgumentException
      */
     private function analyze(): array
     {
-        $analyzer = new Analyzer($this->keep, $this->tokens);
+        $analyzer = new Analyzer($this->tokens, $this);
 
         foreach ($this->ruleTokens as $rule => $tokens) {
             $analyzer->add($rule, $tokens);
@@ -133,6 +143,7 @@ class RuleResolver extends BaseRules implements ResolverInterface
 
     /**
      * @return array
+     * @throws ExternalFileException
      * @throws \InvalidArgumentException
      */
     public function all(): array
