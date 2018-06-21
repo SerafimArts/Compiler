@@ -9,9 +9,6 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Reader;
 
-use Railt\Compiler\Reader\Resolver\PragmaResolver;
-use Railt\Compiler\Reader\Resolver\RuleResolver;
-use Railt\Compiler\Reader\Resolver\TokenResolver;
 use Railt\Lexer\Driver\NativeStateless;
 use Railt\Lexer\LexerInterface;
 use Railt\Parser\Parser;
