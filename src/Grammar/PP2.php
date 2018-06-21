@@ -9,17 +9,11 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar;
 
-use Railt\Compiler\Exception\IncludeNotFoundException;
-use Railt\Compiler\Exception\UnrecognizedTokenException;
-use Railt\Compiler\Grammar\PP2\Lexer;
 use Railt\Compiler\Grammar\PP2\Parser;
 use Railt\Compiler\Reader\GrammarInterface;
 use Railt\Compiler\Reader\Result;
 use Railt\Io\File;
 use Railt\Io\Readable;
-use Railt\Lexer\Result\Eoi;
-use Railt\Lexer\Result\Unknown;
-use Railt\Lexer\TokenInterface;
 
 /**
  * Class Grammar

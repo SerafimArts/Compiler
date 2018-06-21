@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar\PP2;
 
-use Railt\Io\Readable;
 use Railt\Lexer\Driver\NativeStateless;
 
 /**
