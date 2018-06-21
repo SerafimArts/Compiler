@@ -14,7 +14,6 @@ use Railt\Compiler\Reader\BaseRules;
 use Railt\Io\Exception\ExternalFileException;
 use Railt\Io\Readable;
 use Railt\Lexer\TokenInterface;
-use Railt\Parser\Rule\Symbol;
 
 /**
  * Class RuleResolver

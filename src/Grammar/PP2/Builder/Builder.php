@@ -45,7 +45,7 @@ abstract class Builder
     public function __construct(Mapping $mapper, string $name = null)
     {
         $this->mapper = $mapper;
-        $this->name = $name;
+        $this->name   = $name;
     }
 
     /**
@@ -79,7 +79,7 @@ abstract class Builder
     /**
      * @param Builder $builder
      */
-    public function addChildBuilder(Builder $builder): void
+    public function addChildBuilder(self $builder): void
     {
         $this->addChild($builder->getId());
     }

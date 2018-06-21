@@ -80,7 +80,7 @@ class Analyzer
     {
         $this->mapping = new Mapping();
         $this->tokens  = $tokens;
-        $this->rules = $rules;
+        $this->rules   = $rules;
     }
 
     /**
@@ -128,7 +128,7 @@ class Analyzer
             $this->file = $this->rules->getFile($name);
 
             $iterator = new LookaheadIterator($tokens);
-            $rule = $this->sequence($iterator);
+            $rule     = $this->sequence($iterator);
 
             if ($this->rules->isKeep($name) && ! $rule->hasName()) {
                 $rule->rename($name);
@@ -219,7 +219,6 @@ class Analyzer
 
     private function repeat(LookaheadIterator $tokens): Builder
     {
-
     }
 
     /**
