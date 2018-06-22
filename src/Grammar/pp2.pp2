@@ -41,11 +41,18 @@
 #Grammar: __definitions()*
 
 __definitions
-  : <T_PRAGMA>
-  | <T_TOKEN>
-  | <T_SKIP>
-  | <T_INCLUDE>
+  : Pragma()
+  | Token()
+  | Include()
   | Rule()
+
+#Pragma: <T_PRAGMA>
+
+#Token
+  : <T_TOKEN>
+  | <T_SKIP>
+
+#Include: <T_INCLUDE>
 
 #Rule: RuleName() RuleProduction()
 

@@ -9,9 +9,11 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar\PP2;
 
+use Railt\Compiler\Grammar\PP2\Delegate;
 use Railt\Io\Readable;
 use Railt\Parser\Ast\RuleInterface;
 use Railt\Parser\Configuration;
+use Railt\Parser\Environment;
 use Railt\Parser\Parser as LLParser;
 use Railt\Parser\ParserInterface;
 use Railt\Parser\Rule\Alternation;
@@ -25,16 +27,30 @@ use Railt\Parser\Rule\Token;
 class Parser implements ParserInterface
 {
     /**
+     * @var string[]
+     */
+    private const DELEGATES = [
+        'Concatenation' => Delegate\ConcatenationDelegate::class,
+        'Production'    => Delegate\ConcatenationDelegate::class,
+        'Pragma'        => Delegate\PragmaDelegate::class,
+        'Include'       => Delegate\IncludeDelegate::class,
+        'Rule'          => Delegate\RuleDelegate::class,
+    ];
+
+    /**
      * @var ParserInterface
      */
     private $llk;
 
     /**
      * Parser constructor.
+     * @throws \InvalidArgumentException
      */
     public function __construct()
     {
         $this->llk = new LLParser(new Lexer(), $this->rules(), $this->options());
+
+        $this->llk->addDelegates(self::DELEGATES);
     }
 
     /**
@@ -43,13 +59,13 @@ class Parser implements ParserInterface
     private function rules(): array
     {
         return [
-            // 0
-            new Repetition(1, 0, -1, [6], 'Grammar'),
+            new Repetition(0, 0, -1, [6], 'Grammar'),
+            new Concatenation(1, [2], 'Pragma'),
             new Token(2, 'T_PRAGMA', true),
             new Token(3, 'T_TOKEN', true),
             new Token(4, 'T_SKIP', true),
             new Token(5, 'T_INCLUDE', true),
-            new Alternation(6, [2, 3, 4, 5, 7], null),
+            new Alternation(6, [1, 34, 67, 7], null),
             new Concatenation(7, [12, 19], 'Rule'),
             new Repetition(8, 0, 1, [17], null),
             new Token(9, 'T_NAME', true),
@@ -77,7 +93,7 @@ class Parser implements ParserInterface
             new Token(31, 'T_INVOKE', true),
             new Alternation(32, [29, 30, 31], null),
             new Repetition(33, 2, -1, [24], 'Concatenation'),
-            // 34
+            new Alternation(34, [3, 4], 'Token'),
             new Repetition(35, 1, -1, [24], null),
             new Concatenation(36, [35, 44], 'Repetition'),
             new Token(37, 'T_ZERO_OR_ONE', true),
@@ -110,6 +126,7 @@ class Parser implements ParserInterface
             new Concatenation(64, [62, 63], null),
             new Repetition(65, 1, -1, [64], null),
             new Concatenation(66, [61, 65], null),
+            new Concatenation(67, [5], 'Include'),
         ];
     }
 
@@ -126,13 +143,14 @@ class Parser implements ParserInterface
 
     /**
      * @param Readable $input
+     * @param Environment|null $env
      * @return RuleInterface
      * @throws \LogicException
      * @throws \Railt\Io\Exception\ExternalFileException
      * @throws \Railt\Parser\Exception\UnrecognizedRuleException
      */
-    public function parse(Readable $input): RuleInterface
+    public function parse(Readable $input, Environment $env = null): RuleInterface
     {
-        return $this->llk->parse($input);
+        return $this->llk->parse($input, $env);
     }
 }

@@ -9,11 +9,13 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar;
 
+use Railt\Compiler\Grammar\PP2\Lexer;
 use Railt\Compiler\Grammar\PP2\Parser;
 use Railt\Compiler\Reader\GrammarInterface;
 use Railt\Compiler\Reader\Result;
-use Railt\Io\File;
 use Railt\Io\Readable;
+use Railt\Parser\Ast\LeafInterface;
+use Railt\Parser\Ast\RuleInterface;
 
 /**
  * Class Grammar
@@ -31,7 +33,8 @@ class PP2 implements GrammarInterface
     private $ast = [];
 
     /**
-     * Reader constructor.
+     * PP2 constructor.
+     * @throws \InvalidArgumentException
      */
     public function __construct()
     {
@@ -47,9 +50,37 @@ class PP2 implements GrammarInterface
      */
     public function add(Readable $grammar): GrammarInterface
     {
-        $this->ast[] = $this->parser->parse($grammar);
+        /** @var RuleInterface|LeafInterface $rule */
+        foreach ($this->parse($grammar) as $rule) {
+            switch ($rule->getName()) {
+                case 'Pragma':
+                    echo \get_class($rule) . "\n";
+                    break;
+                case 'Include':
+                    echo \get_class($rule) . "\n";
+                    break;
+                case 'Rule':
+                    echo \get_class($rule) . "\n";
+                    break;
+                case 'Token':
+                    echo \get_class($rule) . "\n";
+                    break;
+            }
+        }
 
         return $this;
+    }
+
+    /**
+     * @param Readable $grammar
+     * @return RuleInterface
+     * @throws \LogicException
+     * @throws \Railt\Io\Exception\ExternalFileException
+     * @throws \Railt\Parser\Exception\UnrecognizedRuleException
+     */
+    private function parse(Readable $grammar): RuleInterface
+    {
+        return $this->parser->parse($grammar);
     }
 
     /**
@@ -60,5 +91,6 @@ class PP2 implements GrammarInterface
         foreach ($this->ast as $rule) {
             echo $rule . "\n\n";
         }
+        die;
     }
 }
