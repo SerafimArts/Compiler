@@ -16,5 +16,4 @@ use Railt\Parser\Ast\Rule;
  */
 class IncludeDelegate extends Rule
 {
-
 }

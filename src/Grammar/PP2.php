@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar;
 
-use Railt\Compiler\Grammar\PP2\Lexer;
 use Railt\Compiler\Grammar\PP2\Parser;
 use Railt\Compiler\Reader\GrammarInterface;
 use Railt\Compiler\Reader\Result;
