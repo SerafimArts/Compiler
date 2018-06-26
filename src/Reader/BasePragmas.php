@@ -9,9 +9,6 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Reader;
 
-use Railt\Compiler\Exception\UnknownPragmaException;
-use Railt\Io\Readable;
-use Railt\Lexer\TokenInterface;
 use Railt\Parser\Configuration;
 
 /**
@@ -95,14 +92,6 @@ abstract class BasePragmas implements ProvidePragmas
     }
 
     /**
-     * @return iterable|Config[]
-     */
-    protected function getResolvers(): iterable
-    {
-        return $this->resolvers;
-    }
-
-    /**
      * @return array
      */
     public function parser(): array
@@ -127,6 +116,14 @@ abstract class BasePragmas implements ProvidePragmas
     }
 
     /**
+     * @return iterable|Config[]
+     */
+    protected function getResolvers(): iterable
+    {
+        return $this->resolvers;
+    }
+
+    /**
      * @param string $group
      * @param string $name
      * @param string $value
@@ -141,23 +138,10 @@ abstract class BasePragmas implements ProvidePragmas
     }
 
     /**
-     * @param Readable $readable
-     * @param TokenInterface $token
-     * @param null|string $name
-     * @return string
-     * @throws \Railt\Io\Exception\ExternalFileException
+     * @return array
      */
-    protected function verifyPragmaName(Readable $readable, TokenInterface $token, ?string $name): string
+    public function __debugInfo(): array
     {
-        if ($name === null) {
-            $error = \vsprintf('Unknown configuration pragma rule "%s" with value "%s"', [
-                $token->value(1),
-                $token->value(2),
-            ]);
-
-            throw (new UnknownPragmaException($error))->throwsIn($readable, $token->offset());
-        }
-
-        return $name;
+        return $this->configs;
     }
 }

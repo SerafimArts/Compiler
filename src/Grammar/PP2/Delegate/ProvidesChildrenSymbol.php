@@ -9,16 +9,15 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar\PP2\Delegate;
 
-use Railt\Parser\Ast\Rule;
 use Railt\Parser\Rule\Symbol;
 
 /**
- * Class TokenDelegate
+ * Interface ProvidesChildrenSymbols
  */
-class TokenDelegate extends Rule implements Reduced
+interface ProvidesChildrenSymbol extends ProvidesSymbol
 {
-    public function reduce(): Symbol
-    {
-        throw new \LogicException('The ' . __METHOD__ . ' not implemented yet');
-    }
+    /**
+     * @return iterable|Symbol[]
+     */
+    public function getChildrenRules(): iterable;
 }

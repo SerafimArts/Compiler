@@ -9,16 +9,15 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar\PP2\Delegate;
 
-use Railt\Parser\Ast\Rule;
 use Railt\Parser\Rule\Symbol;
 
 /**
- * Class PragmaDelegate
+ * Interface ProvidesSymbols
  */
-class PragmaDelegate extends Rule
+interface ProvidesSymbol
 {
-    public function reduce(): Symbol
-    {
-        throw new \LogicException('The ' . __METHOD__ . ' not implemented yet');
-    }
+    /**
+     * @return Symbol
+     */
+    public function getRule(): Symbol;
 }

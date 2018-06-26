@@ -29,7 +29,7 @@
         "ext-mbstring": "*",
         "railt/io": "1.2.*",
         "railt/lexer": "1.2.*",
-        "railt/parser": "1.2.*|dev-master",
+        "railt/parser": "1.2.*",
         "twig/twig": "~2.0",
         "zendframework/zend-code": "~3.0"
     },

@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Railt\Compiler\Grammar\PP2;
 
 use Railt\Io\Readable;
-use Railt\Lexer\TokenInterface;
+use Railt\Parser\Ast\RuleInterface;
 
 /**
  * Interface ResolverInterface
@@ -19,7 +19,7 @@ interface ResolverInterface
 {
     /**
      * @param Readable $readable
-     * @param TokenInterface $token
+     * @param RuleInterface $ast
      */
-    public function resolve(Readable $readable, TokenInterface $token): void;
+    public function resolve(Readable $readable, RuleInterface $ast): void;
 }

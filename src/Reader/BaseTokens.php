@@ -22,11 +22,6 @@ abstract class BaseTokens implements ProvideTokens
     /**
      * @var array
      */
-    private $groups = [];
-
-    /**
-     * @var array
-     */
     private $skipped = [];
 
     /**
@@ -47,15 +42,6 @@ abstract class BaseTokens implements ProvideTokens
     }
 
     /**
-     * @param string $token
-     * @param int $group
-     */
-    protected function setGroup(string $token, int $group): void
-    {
-        $this->groups[$token] = $group;
-    }
-
-    /**
      * @return array
      */
     public function all(): array
@@ -70,15 +56,6 @@ abstract class BaseTokens implements ProvideTokens
     public function isKeep(string $token): bool
     {
         return ! \in_array($token, $this->skipped, true);
-    }
-
-    /**
-     * @param string $token
-     * @return int
-     */
-    public function getGroup(string $token): int
-    {
-        return $this->groups[$token] ?? 0;
     }
 
     /**

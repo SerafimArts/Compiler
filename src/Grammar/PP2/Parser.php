@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar\PP2;
 
-use Railt\Compiler\Grammar\PP2\Delegate;
 use Railt\Io\Readable;
 use Railt\Parser\Ast\RuleInterface;
 use Railt\Parser\Configuration;
@@ -32,9 +31,12 @@ class Parser implements ParserInterface
     private const DELEGATES = [
         'Concatenation' => Delegate\ConcatenationDelegate::class,
         'Production'    => Delegate\ConcatenationDelegate::class,
-        'Pragma'        => Delegate\PragmaDelegate::class,
+        'Pragma'        => Delegate\PragmaDefinitionDelegate::class,
         'Include'       => Delegate\IncludeDelegate::class,
         'Rule'          => Delegate\RuleDelegate::class,
+        'Token'         => Delegate\TokenDefinitionDelegate::class,
+        'Invocation'    => Delegate\InvocationDelegate::class,
+        'Repetition'    => Delegate\RepetitionDelegate::class,
     ];
 
     /**
@@ -91,7 +93,7 @@ class Parser implements ParserInterface
             new Token(29, 'T_KEPT', true),
             new Token(30, 'T_SKIPPED', true),
             new Token(31, 'T_INVOKE', true),
-            new Alternation(32, [29, 30, 31], null),
+            new Alternation(32, [29, 30, 31], 'Invocation'),
             new Repetition(33, 2, -1, [24], 'Concatenation'),
             new Alternation(34, [3, 4], 'Token'),
             new Repetition(35, 1, -1, [24], null),

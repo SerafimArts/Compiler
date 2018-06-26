@@ -7,17 +7,11 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Grammar\PP2\Delegate;
-
-use Railt\Parser\Rule\Symbol;
+namespace Railt\Compiler\Exception;
 
 /**
- * Interface Reduced
+ * Class BadIncludeException
  */
-interface Reduced
+class BadIncludeException extends GrammarException
 {
-    /**
-     * @return Symbol
-     */
-    public function reduce(): Symbol;
 }
