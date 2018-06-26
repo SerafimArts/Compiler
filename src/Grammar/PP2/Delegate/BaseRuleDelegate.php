@@ -11,7 +11,6 @@ namespace Railt\Compiler\Grammar\PP2\Delegate;
 
 use Railt\Compiler\Grammar\PP2;
 use Railt\Compiler\Grammar\PP2\Mapping;
-use Railt\Parser\Ast\Delegate;
 use Railt\Parser\Ast\Rule;
 use Railt\Parser\Rule\Symbol;
 

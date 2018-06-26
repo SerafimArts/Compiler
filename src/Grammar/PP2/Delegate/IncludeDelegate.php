@@ -59,7 +59,6 @@ class IncludeDelegate extends Rule
                     return File::fromPathname($path . $ext);
                 }
             }
-
         } catch (\Throwable $e) {
             throw (new IncludeNotFoundException($e->getMessage()))
                 ->throwsIn($this->file, $this->getOffset());

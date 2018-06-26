@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Railt\Compiler\Grammar\PP2\Delegate;
 
 use Railt\Parser\Ast\NodeInterface;
-use Railt\Parser\Ast\Rule;
 use Railt\Parser\Ast\RuleInterface;
 use Railt\Parser\Rule\Repetition;
 use Railt\Parser\Rule\Symbol;

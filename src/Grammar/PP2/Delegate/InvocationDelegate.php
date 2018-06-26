@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar\PP2\Delegate;
 
-use Railt\Parser\Ast\Rule;
 use Railt\Parser\Rule\Symbol;
 
 /**
@@ -31,11 +30,9 @@ class InvocationDelegate extends BaseRuleDelegate
 
     private function getRule(): Symbol
     {
-
     }
 
-    private function getToken(bool $skip)
+    private function getToken(bool $skip): void
     {
-
     }
 }

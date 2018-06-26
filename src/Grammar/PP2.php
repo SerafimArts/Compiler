@@ -34,10 +34,10 @@ use Railt\Parser\Exception\UnrecognizedRuleException;
  */
 class PP2 implements GrammarInterface
 {
-    public const ENV_MAP = 'map';
-    public const ENV_FILE = 'file';
-    public const ENV_RULES = 'rules';
-    public const ENV_TOKENS = 'tokens';
+    public const ENV_MAP     = 'map';
+    public const ENV_FILE    = 'file';
+    public const ENV_RULES   = 'rules';
+    public const ENV_TOKENS  = 'tokens';
     public const ENV_PRAGMAS = 'pragmas';
 
     /**
@@ -82,7 +82,7 @@ class PP2 implements GrammarInterface
     public function __construct()
     {
         $this->parser = new Parser();
-        $this->map = new Mapping();
+        $this->map    = new Mapping();
 
         $this->bootResolvers();
         $this->bootEnvironment();

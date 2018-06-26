@@ -69,4 +69,3 @@ class RulesResolver extends BaseRules implements ResolverInterface
         }
     }
 }
-

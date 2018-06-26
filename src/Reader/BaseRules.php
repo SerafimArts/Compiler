@@ -9,14 +9,8 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Reader;
 
-use Railt\Compiler\Exception\GrammarException;
 use Railt\Io\Readable;
-use Railt\Parser\Ast\Delegate;
-use Railt\Parser\Ast\Rule;
-use Railt\Parser\Ast\RuleInterface;
-use Railt\Parser\Rule\Production;
 use Railt\Parser\Rule\Symbol;
-use Railt\Parser\Rule\Terminal;
 
 /**
  * Class BaseRules
