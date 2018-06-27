@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Grammar\PP2\Delegate;
+namespace Railt\Compiler\Grammar\PP2\Delegate\Production;
 
 use Railt\Parser\Ast\NodeInterface;
 use Railt\Parser\Ast\RuleInterface;
@@ -17,16 +17,16 @@ use Railt\Parser\Rule\Symbol;
 /**
  * Class RepetitionDelegate
  */
-class RepetitionDelegate extends BaseRuleDelegate implements ProvidesChildrenSymbol
+class RepetitionDelegate extends BaseProductionDelegate
 {
     /**
      * @return Symbol
      */
-    public function getRule(): Symbol
+    public function create(): Symbol
     {
         [$from, $to] = $this->getInterval($this->first('RepetitionInterval'));
 
-        return new Repetition($this->getId(), $from, $to, $this->getChildrenRuleIds());
+        return new Repetition($this->getId(), $from, $to, $this->getChildrenIds(), $this->symbolName);
     }
 
     /**

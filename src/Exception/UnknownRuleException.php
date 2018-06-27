@@ -7,17 +7,12 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Grammar\PP2\Delegate;
-
-use Railt\Parser\Rule\Symbol;
+namespace Railt\Compiler\Exception;
 
 /**
- * Interface ProvidesSymbols
+ * Class UnknownRuleException
  */
-interface ProvidesSymbol
+class UnknownRuleException extends GrammarException
 {
-    /**
-     * @return Symbol
-     */
-    public function getRule(): Symbol;
+
 }

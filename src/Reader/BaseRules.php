@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Reader;
 
-use Railt\Io\Readable;
+use Railt\Parser\Ast\Delegate;
 use Railt\Parser\Rule\Symbol;
 
 /**
@@ -18,40 +18,61 @@ use Railt\Parser\Rule\Symbol;
 abstract class BaseRules implements ProvideRules
 {
     /**
-     * @var array
+     * @var array|Symbol[]
      */
     private $rules = [];
 
     /**
-     * @param Symbol $rule
+     * @var array|string[]|Delegate[]
      */
-    protected function add(Symbol $rule): void
+    private $delegates = [];
+
+    /**
+     * @param Symbol $rule
+     * @param string|null $delegate
+     */
+    protected function add(Symbol $rule, string $delegate = null): void
     {
-        $this->rules[] = $rule;
+        $this->rules[$rule->getId()] = $rule;
+
+        if ($delegate) {
+            $this->delegates[$rule->getId()] = $delegate;
+        }
     }
 
+    /**
+     * @param int $id
+     * @return bool
+     */
+    protected function isInitialized(int $id): bool
+    {
+        return \array_key_exists($id, $this->rules);
+    }
+
+    /**
+     * @param int $id
+     * @return Symbol
+     */
+    protected function fetch(int $id): Symbol
+    {
+        return $this->rules[$id];
+    }
+
+    /**
+     * @return array|Symbol[]
+     */
     public function all(): array
     {
-        throw new \LogicException(__METHOD__ . ' not implemented yet');
+        \ksort($this->rules);
+
+        return \array_values($this->rules);
     }
 
+    /**
+     * @return iterable
+     */
     public function getDelegates(): iterable
     {
-        throw new \LogicException(__METHOD__ . ' not implemented yet');
-    }
-
-    public function getFile(string $rule): Readable
-    {
-        throw new \LogicException(__METHOD__ . ' not implemented yet');
-    }
-
-    public function has(string $rule): bool
-    {
-        throw new \LogicException(__METHOD__ . ' not implemented yet');
-    }
-
-    public function isKeep(string $rule): bool
-    {
-        throw new \LogicException(__METHOD__ . ' not implemented yet');
+        return $this->delegates;
     }
 }

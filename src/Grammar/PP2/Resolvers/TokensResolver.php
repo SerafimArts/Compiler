@@ -32,4 +32,12 @@ class TokensResolver extends BaseTokens implements ResolverInterface
             $this->makeSkipped($rule->getDefinitionName());
         }
     }
+
+    /**
+     * @return void
+     */
+    public function make(): void
+    {
+        // Do nothing
+    }
 }

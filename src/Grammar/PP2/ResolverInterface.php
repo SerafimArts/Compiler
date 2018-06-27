@@ -22,4 +22,9 @@ interface ResolverInterface
      * @param RuleInterface $ast
      */
     public function resolve(Readable $readable, RuleInterface $ast): void;
+
+    /**
+     * @return void
+     */
+    public function make(): void;
 }

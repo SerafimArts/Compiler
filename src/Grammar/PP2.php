@@ -11,9 +11,8 @@ namespace Railt\Compiler\Grammar;
 
 use Railt\Compiler\Grammar\PP2\Delegate\IncludeDelegate;
 use Railt\Compiler\Grammar\PP2\Delegate\PragmaDefinitionDelegate;
-use Railt\Compiler\Grammar\PP2\Delegate\RuleDelegate;
+use Railt\Compiler\Grammar\PP2\Delegate\RuleDefinitionDelegate;
 use Railt\Compiler\Grammar\PP2\Delegate\TokenDefinitionDelegate;
-use Railt\Compiler\Grammar\PP2\Mapping;
 use Railt\Compiler\Grammar\PP2\Parser;
 use Railt\Compiler\Grammar\PP2\Resolvers\PragmasResolver;
 use Railt\Compiler\Grammar\PP2\Resolvers\RulesResolver;
@@ -34,8 +33,6 @@ use Railt\Parser\Exception\UnrecognizedRuleException;
  */
 class PP2 implements GrammarInterface
 {
-    public const ENV_MAP     = 'map';
-    public const ENV_FILE    = 'file';
     public const ENV_RULES   = 'rules';
     public const ENV_TOKENS  = 'tokens';
     public const ENV_PRAGMAS = 'pragmas';
@@ -71,18 +68,12 @@ class PP2 implements GrammarInterface
     private $tokens;
 
     /**
-     * @var Mapping
-     */
-    private $map;
-
-    /**
      * PP2 constructor.
      * @throws \InvalidArgumentException
      */
     public function __construct()
     {
         $this->parser = new Parser();
-        $this->map    = new Mapping();
 
         $this->bootResolvers();
         $this->bootEnvironment();
@@ -94,7 +85,7 @@ class PP2 implements GrammarInterface
     private function bootResolvers(): void
     {
         $this->pragmas = new PragmasResolver();
-        $this->rules   = new RulesResolver($this->map);
+        $this->rules   = new RulesResolver();
         $this->tokens  = new TokensResolver();
     }
 
@@ -112,7 +103,6 @@ class PP2 implements GrammarInterface
     private function createEnvironment(): Environment
     {
         $env = new Environment();
-        $env->share(static::ENV_MAP, $this->map);
         $env->share(static::ENV_RULES, $this->rules);
         $env->share(static::ENV_TOKENS, $this->tokens);
         $env->share(static::ENV_PRAGMAS, $this->pragmas);
@@ -125,6 +115,10 @@ class PP2 implements GrammarInterface
      */
     public function make(): Result
     {
+        $this->pragmas->make();
+        $this->tokens->make();
+        $this->rules->make();
+
         return new Result($this->pragmas, $this->tokens, $this->rules);
     }
 
@@ -136,8 +130,12 @@ class PP2 implements GrammarInterface
      */
     private function load(Readable $grammar): void
     {
+        $ast = $this->parse($grammar);
+
+        dd((string)$ast);
+
         /** @var RuleInterface|LeafInterface $rule */
-        foreach ($this->parse($grammar) as $rule) {
+        foreach ($ast as $rule) {
             switch ($rule->getName()) {
                 case 'Pragma':
                     /** @var PragmaDefinitionDelegate $rule */
@@ -146,11 +144,11 @@ class PP2 implements GrammarInterface
 
                 case 'Include':
                     /** @var IncludeDelegate $rule */
-                    $this->add($rule->getFile());
+                    $this->add($rule->getFile($grammar));
                     break;
 
                 case 'Rule':
-                    /** @var RuleDelegate $rule */
+                    /** @var RuleDefinitionDelegate $rule */
                     $this->rules->resolve($grammar, $rule);
                     break;
 
@@ -188,7 +186,6 @@ class PP2 implements GrammarInterface
     public function add(Readable $grammar): GrammarInterface
     {
         if (! $this->isLoaded($grammar)) {
-            $this->env->share(static::ENV_FILE, $grammar);
             $this->load($grammar);
         }
 

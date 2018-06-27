@@ -9,16 +9,24 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar\PP2\Delegate;
 
+use Railt\Compiler\Grammar\PP2\Delegate\Production\ConcatenationDelegate;
 use Railt\Parser\Ast\NodeInterface;
 use Railt\Parser\Ast\Rule;
 use Railt\Parser\Ast\RuleInterface;
-use Railt\Parser\Rule\Symbol;
 
 /**
- * Class RuleDelegate
+ * Class RuleDefinitionDelegate
  */
-class RuleDelegate extends Rule implements ProvidesChildrenSymbol
+class RuleDefinitionDelegate extends Rule
 {
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->getProduction()->getId();
+    }
+
     /**
      * @return string
      */
@@ -54,26 +62,17 @@ class RuleDelegate extends Rule implements ProvidesChildrenSymbol
     }
 
     /**
-     * @return iterable
+     * @return ConcatenationDelegate
      */
-    public function getChildrenRules(): iterable
+    public function getProduction(): ConcatenationDelegate
     {
-        return $this->getProduction()->getChildrenRules();
-    }
+        /** @var ConcatenationDelegate $production */
+        $production = $this->first('Production');
 
-    /**
-     * @return Symbol
-     */
-    public function getRule(): Symbol
-    {
-        return $this->getProduction()->getRule();
-    }
+        if (! $production->getSymbolName() && $this->isKept()) {
+            $production->setSymbolName($this->getRuleName());
+        }
 
-    /**
-     * @return ProvidesSymbol|ConcatenationDelegate|NodeInterface
-     */
-    private function getProduction(): ProvidesSymbol
-    {
-        return $this->first('Production');
+        return $production;
     }
 }

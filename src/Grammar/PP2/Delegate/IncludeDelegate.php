@@ -10,12 +10,10 @@ declare(strict_types=1);
 namespace Railt\Compiler\Grammar\PP2\Delegate;
 
 use Railt\Compiler\Exception\IncludeNotFoundException;
-use Railt\Compiler\Grammar\PP2;
 use Railt\Io\File;
 use Railt\Io\Readable;
 use Railt\Parser\Ast\LeafInterface;
 use Railt\Parser\Ast\Rule;
-use Railt\Parser\Environment;
 
 /**
  * Class IncludeDelegate
@@ -28,30 +26,13 @@ class IncludeDelegate extends Rule
     private const FILE_EXTENSIONS = ['', '.pp', '.pp2'];
 
     /**
-     * @var Readable
-     */
-    private $file;
-
-    /**
-     * IncludeDelegate constructor.
-     * @param Environment $env
-     * @param string $name
-     * @param array $children
-     * @param int $offset
-     */
-    public function __construct(Environment $env, string $name, array $children = [], int $offset = 0)
-    {
-        $this->file = $env->get(PP2::ENV_FILE);
-        parent::__construct($env, $name, $children, $offset);
-    }
-
-    /**
+     * @param Readable $from
      * @return Readable
      * @throws \Railt\Io\Exception\ExternalFileException
      */
-    public function getFile(): Readable
+    public function getFile(Readable $from): Readable
     {
-        $path = $this->getIncludePathname();
+        $path = $this->getIncludePathname($from);
 
         try {
             foreach (self::FILE_EXTENSIONS as $ext) {
@@ -61,19 +42,20 @@ class IncludeDelegate extends Rule
             }
         } catch (\Throwable $e) {
             throw (new IncludeNotFoundException($e->getMessage()))
-                ->throwsIn($this->file, $this->getOffset());
+                ->throwsIn($from, $this->getOffset());
         }
 
-        $error = \sprintf('Could not include file "%s" from "%s"', $path, $this->file->getPathname());
-        throw (new IncludeNotFoundException($error))->throwsIn($this->file, $this->getOffset());
+        $error = \sprintf('Could not include file "%s" from "%s"', $path, $from->getPathname());
+        throw (new IncludeNotFoundException($error))->throwsIn($from, $this->getOffset());
     }
 
     /**
+     * @param Readable $from
      * @return string
      */
-    private function getIncludePathname(): string
+    private function getIncludePathname(Readable $from): string
     {
-        $path = \dirname($this->file->getPathname()) . '/' . $this->getIncludeValue();
+        $path = \dirname($from->getPathname()) . '/' . $this->getIncludeValue();
 
         return \str_replace(['\\\\', '\\'], '/', $path);
     }

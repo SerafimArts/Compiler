@@ -55,4 +55,12 @@ class PragmasResolver extends BasePragmas implements ResolverInterface
 
         return new UnknownPragmaException($error);
     }
+
+    /**
+     * @return void
+     */
+    public function make(): void
+    {
+        // Do nothing
+    }
 }

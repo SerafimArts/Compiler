@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Reader;
 
-use Railt\Io\Readable;
 use Railt\Parser\Rule\Symbol;
 
 /**
@@ -26,22 +25,4 @@ interface ProvideRules
      * @return iterable
      */
     public function getDelegates(): iterable;
-
-    /**
-     * @param string $rule
-     * @return Readable
-     */
-    public function getFile(string $rule): Readable;
-
-    /**
-     * @param string $rule
-     * @return bool
-     */
-    public function has(string $rule): bool;
-
-    /**
-     * @param string $rule
-     * @return bool
-     */
-    public function isKeep(string $rule): bool;
 }
