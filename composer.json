@@ -27,10 +27,9 @@
         "ext-pcre": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "railt/io": "1.2.*",
-        "railt/lexer": "1.2.*",
-        "railt/parser": "1.2.*",
-        "twig/twig": "~2.0",
+        "railt/io": "~1.2",
+        "railt/lexer": "1.2.*|dev-master",
+        "railt/parser": "1.2.*|dev-master",
         "zendframework/zend-code": "~3.0"
     },
     "autoload": {
@@ -43,8 +42,6 @@
     },
     "require-dev": {
         "symfony/finder": "~4.0",
-        "illuminate/support": "~5.6",
-        "symfony/var-dumper": "~4.0",
         "phpunit/phpunit": "^6.5"
     },
     "autoload-dev": {
