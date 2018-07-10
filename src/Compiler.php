@@ -34,7 +34,7 @@ class Compiler extends Proxy
      * @param Readable $grammar
      * @return Compiler
      */
-    public static function read(Readable $grammar): Compiler
+    public static function read(Readable $grammar): self
     {
         $reader = new Reader($grammar);
 
@@ -45,7 +45,7 @@ class Compiler extends Proxy
      * @param ParserInterface $parser
      * @return Compiler
      */
-    public static function fromParser(ParserInterface $parser): Compiler
+    public static function fromParser(ParserInterface $parser): self
     {
         return new static($parser);
     }
@@ -54,7 +54,7 @@ class Compiler extends Proxy
      * @param string $namespace
      * @return Compiler
      */
-    public function setNamespace(string $namespace): Compiler
+    public function setNamespace(string $namespace): self
     {
         $this->namespace = $namespace;
 
@@ -65,7 +65,7 @@ class Compiler extends Proxy
      * @param string $name
      * @return Compiler
      */
-    public function setClassName(string $name): Compiler
+    public function setClassName(string $name): self
     {
         $this->class = $name;
 
