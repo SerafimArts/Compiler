@@ -9,7 +9,13 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar\Delegate;
 
+use Railt\Compiler\Grammar\LookaheadIterator;
+use Railt\Lexer\Result\Eoi;
+use Railt\Lexer\Result\Token;
+use Railt\Lexer\TokenInterface;
 use Railt\Parser\Ast\Delegate;
+use Railt\Parser\Ast\LeafInterface;
+use Railt\Parser\Ast\NodeInterface;
 use Railt\Parser\Ast\Rule;
 use Railt\Parser\Ast\RuleInterface;
 use Railt\Parser\Environment;
@@ -19,21 +25,33 @@ use Railt\Parser\GrammarInterface;
 /**
  * Class RuleDelegate
  */
-class RuleDelegate extends Rule implements Delegate
+class RuleDelegate extends Rule
 {
     /**
-     * @param Environment $env
+     * @return iterable|TokenInterface[]|LookaheadIterator
      */
-    public function boot(Environment $env): void
+    public function getInnerTokens(): iterable
     {
-        /** @var GrammarInterface|Grammar $grammar */
-        $grammar = $env->get(GrammarInterface::class);
+        return new LookaheadIterator((function() {
+            yield from $this->getTokens($this->first('RuleProduction'));
+            yield new Eoi(0);
+        })->call($this));
+    }
 
-        if ($delegate = $this->getDelegate()) {
-            $grammar->addDelegate($this->getRuleName(), $delegate);
+    /**
+     * @param RuleInterface|NodeInterface $rule
+     * @return \Traversable
+     */
+    private function getTokens(RuleInterface $rule): \Traversable
+    {
+        /** @var LeafInterface $child */
+        foreach ($rule->getChildren() as $child) {
+            if ($child instanceof RuleInterface) {
+                yield from $this->getTokens($child);
+            } else {
+                yield new Token($child->getName(), $child->getValues(), $child->getOffset());
+            }
         }
-
-        // TODO Add analyzer
     }
 
     /**

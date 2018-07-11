@@ -37,6 +37,10 @@ use Railt\Parser\GrammarInterface;
  */
 class <?=$this->class?> extends Stateful
 {
+<?php foreach ($this->getLexer()->getTokenDefinitions() as $token): ?>
+    public const <?=$token->getName()?> = <?=$this->render($token->getName())?>;
+<?php endforeach; ?>
+
     /**
      * Lexical tokens list.
      *
@@ -44,7 +48,7 @@ class <?=$this->class?> extends Stateful
      */
     private const LEXER_TOKENS = [
 <?php foreach ($this->getLexer()->getTokenDefinitions() as $token): ?>
-        <?=$this->render($token->getName())?> => <?=$this->render($token->getPcre())?>,
+        self::<?=$token->getName()?> => <?=$this->render($token->getPcre())?>,
 <?php endforeach; ?>
     ];
 
@@ -62,6 +66,11 @@ class <?=$this->class?> extends Stateful
         <?=$this->render($token->getName())?>,
 <?php endforeach; ?>
     ];
+
+    /**
+     * @var int
+     */
+    private const LEXER_FLAGS = Factory::LOOKAHEAD;
 
     /**
      * List of rule delegates.
@@ -85,14 +94,10 @@ class <?=$this->class?> extends Stateful
      * @return ParserInterface
      * @throws \InvalidArgumentException
      * @throws \Railt\Lexer\Exception\BadLexemeException
-     * @throws \Railt\Parser\Exception\GrammarException
      */
     protected function boot(): ParserInterface
     {
-        $lexer = $this->bootLexer();
-        $grammar = $this->bootGrammar();
-
-        return new Llk($lexer, $grammar);
+        return new Llk($this->bootLexer(), $this->bootGrammar());
     }
 
     /**
@@ -102,12 +107,11 @@ class <?=$this->class?> extends Stateful
      */
     private function bootLexer(): LexerInterface
     {
-        return Factory::create(self::LEXER_TOKENS, self::LEXER_SKIPPED_TOKENS, Factory::LOOKAHEAD);
+        return Factory::create(self::LEXER_TOKENS, self::LEXER_SKIPPED_TOKENS, self::LEXER_FLAGS);
     }
 
     /**
      * @return GrammarInterface
-     * @throws \Railt\Parser\Exception\GrammarException
      */
     private function bootGrammar(): GrammarInterface
     {

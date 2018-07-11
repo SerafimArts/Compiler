@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace Railt\Compiler\Grammar;
 
 use Railt\Compiler\Grammar\Delegate\IncludeDelegate;
+use Railt\Compiler\Grammar\Delegate\RuleDelegate;
+use Railt\Compiler\Grammar\Delegate\TokenDelegate;
 use Railt\Io\Readable;
 use Railt\Lexer\Driver\NativeRegex;
 use Railt\Lexer\LexerInterface;
@@ -45,6 +47,11 @@ class Reader
     private $grammar;
 
     /**
+     * @var Analyzer
+     */
+    private $analyzer;
+
+    /**
      * Reader constructor.
      * @param Readable $file
      */
@@ -54,6 +61,7 @@ class Reader
         $this->pp = new Parser();
         $this->lexer = new NativeRegex();
         $this->grammar = new Grammar();
+        $this->analyzer = new Analyzer($this->lexer);
 
         $this->boot();
     }
@@ -79,6 +87,10 @@ class Reader
     {
         $this->addGrammar($this->file);
 
+        foreach ($this->analyzer->analyze() as $rule) {
+            $this->grammar->addRule($rule);
+        }
+
         return new Llk($this->lexer, $this->grammar);
     }
 
@@ -95,6 +107,20 @@ class Reader
             switch (true) {
                 case $child instanceof IncludeDelegate:
                     $this->addGrammar($child->getPathname($file));
+                    break;
+
+                case $child instanceof TokenDelegate:
+                    $this->lexer->add($child->getTokenName(), $child->getTokenPattern());
+                    if (! $child->isKept()) {
+                        $this->lexer->skip($child->getTokenName());
+                    }
+                    break;
+
+                case $child instanceof RuleDelegate:
+                    $this->analyzer->addRuleDelegate($child);
+                    if ($child->getDelegate()) {
+                        $this->grammar->addDelegate($child->getRuleName(), $child->getDelegate());
+                    }
                     break;
             }
         }

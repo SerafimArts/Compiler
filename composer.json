@@ -28,6 +28,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "railt/io": "~1.2",
+        "symfony/console": "~3.3|~4.0",
         "railt/lexer": "1.2.*|dev-master",
         "railt/parser": "1.2.*|dev-master",
         "zendframework/zend-code": "~3.0"
@@ -53,5 +54,14 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "extra": {
+        "railt": {
+            "commands": [
+                "Railt\\Compiler\\Console\\GrammarCompileCommand",
+                "Railt\\Compiler\\Console\\CompileCommand",
+                "Railt\\Compiler\\Console\\AnalyzeCommand"
+            ]
+        }
+    }
 }

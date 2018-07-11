@@ -33,8 +33,10 @@ class Compiler extends Proxy
     /**
      * @param Readable $grammar
      * @return Compiler
+     * @throws \Railt\Io\Exception\ExternalFileException
+     * @throws \Railt\Io\Exception\NotReadableException
      */
-    public static function read(Readable $grammar): Compiler
+    public static function load(Readable $grammar): Compiler
     {
         $reader = new Reader($grammar);
 
@@ -74,6 +76,7 @@ class Compiler extends Proxy
 
     /**
      * @param string $path
+     * @throws \Throwable
      */
     public function saveTo(string $path): void
     {
@@ -91,7 +94,7 @@ class Compiler extends Proxy
         \ob_start();
 
         try {
-            require __DIR__ . '/../resources/parser.tpl.php';
+            require __DIR__ . '/../resources/templates/parser.tpl.php';
             return \ob_get_contents();
         } catch (\Throwable $e) {
             throw $e;
