@@ -143,7 +143,7 @@ The constructions of the PP2 language are the following:
 - `#rule` to create a rule node in the resulting tree.
 
 Finally, the grammar of the PP2 language 
-is [written with the PP2 language](https://github.com/railt/compiler/resources/grammar.pp2). 
+is [written with the PP2 language](https://github.com/railt/compiler/blob/master/resources/grammar.pp2). 
 
 Let's try to add support for the remaining symbols of the 
 calculator: Moderation, Division and Subtraction; and at the same time slightly 
@@ -199,3 +199,15 @@ Simple expression `4 + 8 - 15 * 16 / 23 + -42` will be parsed into the followed 
 ```
 
 Note that the grammar is quite trivial and does not contain the priorities of the operators.
+
+## Delegation
+
+You can tell the compiler which php class to include the desired grammar rule using 
+keyword `->` after name of rule definition. In this case, each processed rule will 
+create an instance of target class.
+
+```ebnf
+#Digit -> Path\To\Class = <T_DIGIT> ;
+```
+
+For more information about delegates, use [the Parser documentation](https://github.com/railt/parser#delegate).
