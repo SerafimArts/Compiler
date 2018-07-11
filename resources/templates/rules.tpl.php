@@ -12,7 +12,6 @@ use Railt\Parser\Rule\Concatenation;
 use Railt\Parser\Rule\Repetition;
 use Railt\Parser\Rule\Terminal;
 
-
 $result = [];
 
 foreach ($this->getGrammar()->getRules() as $rule) {
