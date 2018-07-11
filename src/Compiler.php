@@ -36,7 +36,7 @@ class Compiler extends Proxy
      * @throws \Railt\Io\Exception\ExternalFileException
      * @throws \Railt\Io\Exception\NotReadableException
      */
-    public static function load(Readable $grammar): Compiler
+    public static function load(Readable $grammar): self
     {
         $reader = new Reader($grammar);
 
@@ -47,7 +47,7 @@ class Compiler extends Proxy
      * @param ParserInterface $parser
      * @return Compiler
      */
-    public static function fromParser(ParserInterface $parser): Compiler
+    public static function fromParser(ParserInterface $parser): self
     {
         return new static($parser);
     }
@@ -56,7 +56,7 @@ class Compiler extends Proxy
      * @param string $namespace
      * @return Compiler
      */
-    public function setNamespace(string $namespace): Compiler
+    public function setNamespace(string $namespace): self
     {
         $this->namespace = $namespace;
 
@@ -67,7 +67,7 @@ class Compiler extends Proxy
      * @param string $name
      * @return Compiler
      */
-    public function setClassName(string $name): Compiler
+    public function setClassName(string $name): self
     {
         $this->class = $name;
 

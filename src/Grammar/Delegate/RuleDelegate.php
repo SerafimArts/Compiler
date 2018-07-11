@@ -13,14 +13,10 @@ use Railt\Compiler\Grammar\LookaheadIterator;
 use Railt\Lexer\Result\Eoi;
 use Railt\Lexer\Result\Token;
 use Railt\Lexer\TokenInterface;
-use Railt\Parser\Ast\Delegate;
 use Railt\Parser\Ast\LeafInterface;
 use Railt\Parser\Ast\NodeInterface;
 use Railt\Parser\Ast\Rule;
 use Railt\Parser\Ast\RuleInterface;
-use Railt\Parser\Environment;
-use Railt\Parser\Grammar;
-use Railt\Parser\GrammarInterface;
 
 /**
  * Class RuleDelegate
@@ -32,7 +28,7 @@ class RuleDelegate extends Rule
      */
     public function getInnerTokens(): iterable
     {
-        return new LookaheadIterator((function() {
+        return new LookaheadIterator((function () {
             yield from $this->getTokens($this->first('RuleProduction'));
             yield new Eoi(0);
         })->call($this));

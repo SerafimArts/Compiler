@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar\Builder;
 
-use Railt\Parser\Rule\Rule;
 use Railt\Parser\Rule\Concatenation as ConcatenationRule;
+use Railt\Parser\Rule\Rule;
 
 /**
  * Class Concatenation

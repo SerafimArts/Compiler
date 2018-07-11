@@ -15,7 +15,6 @@ use Railt\Compiler\Grammar\Delegate\TokenDelegate;
 use Railt\Io\Readable;
 use Railt\Lexer\Driver\NativeRegex;
 use Railt\Lexer\LexerInterface;
-use Railt\Parser\Ast\RuleInterface;
 use Railt\Parser\Driver\Llk;
 use Railt\Parser\Grammar;
 use Railt\Parser\GrammarInterface;
@@ -57,10 +56,10 @@ class Reader
      */
     public function __construct(Readable $file)
     {
-        $this->file = $file;
-        $this->pp = new Parser();
-        $this->lexer = new NativeRegex();
-        $this->grammar = new Grammar();
+        $this->file     = $file;
+        $this->pp       = new Parser();
+        $this->lexer    = new NativeRegex();
+        $this->grammar  = new Grammar();
         $this->analyzer = new Analyzer($this->lexer);
 
         $this->boot();
