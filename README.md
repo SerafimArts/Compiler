@@ -69,6 +69,7 @@ use Railt\Io\File;
 use Railt\Compiler\Compiler;
 
 $parser = Compiler::load(File::fromSources('grammar here'));
+
 echo $parser->parse(File::fromSources('2 + 2'));
 ```
 
@@ -211,3 +212,24 @@ create an instance of target class.
 ```
 
 For more information about delegates, use [the Parser documentation](https://github.com/railt/parser#delegate).
+
+## Parser compilation
+
+Reading a grammar is quite simple operation, but it still takes time 
+to execute. After the grammar rules have been formulated, you can "fix" the version 
+in a separate parser class that will contain all the logic and no longer require 
+reading the source code. After you compile it into a class, this package (railt/compiler) 
+can be excluded from composer dependencies.
+
+```php
+$compiler = Compiler::load(File::fromPathname('path/to/grammar.pp2'));
+
+$compiler->setNamespace('Example')
+    ->setClassName('Parser')
+    ->saveTo(__DIR__);
+```
+
+This code example will create a parser class in the current directory 
+with the required class and namespace names. An example of the result of generation 
+can be found [in an existing project here](https://github.com/railt/compiler/blob/master/src/Grammar/Parser.php).
+As a source, [this grammar file](https://github.com/railt/compiler/blob/master/resources/grammar.pp2). 
