@@ -63,7 +63,7 @@ final class GrammarCompileCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setName('compile:grammar');
+        $this->setName('compiler:grammar');
         $this->setDescription('Builds a new grammar parser from .pp/.pp2 grammar file.');
     }
 }

@@ -47,7 +47,7 @@ class AnalyzeCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setName('analyze');
+        $this->setName('compiler:analyze');
         $this->setDescription('Analyze source file using selection grammar');
 
         $this->addArgument('grammar', InputArgument::REQUIRED,

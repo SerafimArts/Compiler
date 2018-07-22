@@ -53,7 +53,7 @@ class CompileCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setName('compile');
+        $this->setName('compiler:compile');
         $this->setDescription('Builds a parser from pp2 grammar file.');
 
         $this->addArgument('grammar', InputArgument::REQUIRED,

@@ -28,7 +28,6 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "railt/io": "~1.2",
-        "symfony/console": "~3.3|~4.0",
         "railt/lexer": "1.2.*|dev-master",
         "railt/parser": "1.2.*|dev-master",
         "zendframework/zend-code": "~3.0"
@@ -50,11 +49,9 @@
             "Railt\\Tests\\Compiler\\": "tests"
         }
     },
-    "config": {
-        "sort-packages": true
+    "suggest": {
+        "railt/console": "(1.2.*) Console scripts support"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "extra": {
         "railt": {
             "commands": [
@@ -63,5 +60,10 @@
                 "Railt\\Compiler\\Console\\AnalyzeCommand"
             ]
         }
-    }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
