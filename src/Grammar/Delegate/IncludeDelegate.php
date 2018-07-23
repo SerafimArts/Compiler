@@ -29,7 +29,7 @@ class IncludeDelegate extends Rule
     {
         $file = $this->getValues()->current()->getValue(1);
 
-        foreach (['', '.pp', 'pp2'] as $ext) {
+        foreach (['', '.pp', '.pp2'] as $ext) {
             $path = \dirname($from->getPathname()) . '/' . $file . $ext;
 
             if (\is_file($path)) {
