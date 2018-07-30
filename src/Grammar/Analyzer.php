@@ -26,12 +26,6 @@ use Railt\Parser\Rule\Rule;
 class Analyzer
 {
     /**
-     * Tokens representing rules.
-     * @var array
-     */
-    protected $tokens = [];
-
-    /**
      * @var array|RuleDelegate[]
      */
     protected $rules = [];
@@ -53,17 +47,6 @@ class Analyzer
      * @var string
      */
     private $ruleName;
-
-    /**
-     * Analyzer constructor.
-     * @param LexerInterface $lexer
-     */
-    public function __construct(LexerInterface $lexer)
-    {
-        foreach ($lexer->getTokenDefinitions() as $token) {
-            $this->tokens[$token->getName()] = $token->getPcre();
-        }
-    }
 
     /**
      * @param RuleDelegate $delegate
@@ -363,16 +346,10 @@ class Analyzer
      * @param LookaheadIterator $tokens
      * @param bool $kept
      * @return int|string|null
-     * @throws GrammarException
      */
     protected function token(LookaheadIterator $tokens, bool $kept = true)
     {
         $tokenName = $tokens->current()->getValue(1);
-
-        if (! isset($this->tokens[$tokenName])) {
-            $error = \sprintf('Token %s does not exist in rule %s.', $tokenName, $this->ruleName);
-            throw new GrammarException($error, 4);
-        }
 
         $name = $this->transitionalRuleCounter++;
 
@@ -391,9 +368,7 @@ class Analyzer
     {
         $tokenName = $tokens->current()->getValue(1);
 
-        $isEmptyRule = ! \array_key_exists($tokenName, $this->rules);
-
-        if ($isEmptyRule) {
+        if (! \array_key_exists($tokenName, $this->rules)) {
             $error = \vsprintf('Cannot call rule %s() in rule %s because it does not exist.', [
                 $tokenName,
                 $this->ruleName,
