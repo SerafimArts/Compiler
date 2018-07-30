@@ -367,7 +367,7 @@ class Analyzer
     {
         $tokenName = $tokens->current()->getValue(1);
 
-        if (false) { // TODO
+        if (! isset($this->tokens[$tokenName])) {
             $error = \sprintf('Token %s does not exist in rule %s.', $tokenName, $this->ruleName);
             throw new GrammarException($error, 4);
         }
