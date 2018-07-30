@@ -60,7 +60,9 @@ class Analyzer
      */
     public function __construct(LexerInterface $lexer)
     {
-        $this->tokens = $lexer->getTokenDefinitions();
+        $tokens = $lexer->getTokenDefinitions();
+
+        $this->tokens = $tokens instanceof \Traversable ? \iterator_to_array($tokens) : $tokens;
     }
 
     /**
