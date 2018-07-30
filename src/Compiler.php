@@ -83,7 +83,7 @@ class Compiler extends Proxy
         $pathName = $path . '/' . $this->class . '.php';
 
         if (\is_file($pathName)) {
-            unlink($pathName);
+            \unlink($pathName);
         }
 
         \file_put_contents($pathName, $this->build());
