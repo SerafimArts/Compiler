@@ -29,7 +29,7 @@ class Analyzer
      * Tokens representing rules.
      * @var array
      */
-    protected $tokens;
+    protected $tokens = [];
 
     /**
      * @var array|RuleDelegate[]
@@ -60,9 +60,9 @@ class Analyzer
      */
     public function __construct(LexerInterface $lexer)
     {
-        $tokens = $lexer->getTokenDefinitions();
-
-        $this->tokens = $tokens instanceof \Traversable ? \iterator_to_array($tokens) : $tokens;
+        foreach ($lexer->getTokenDefinitions() as $token) {
+            $this->tokens[$token->getName()] = $token->getPcre();
+        }
     }
 
     /**
