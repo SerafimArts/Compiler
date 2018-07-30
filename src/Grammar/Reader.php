@@ -60,7 +60,7 @@ class Reader
         $this->pp       = new Parser();
         $this->lexer    = new NativeRegex();
         $this->grammar  = new Grammar();
-        $this->analyzer = new Analyzer($this->lexer);
+        $this->analyzer = new Analyzer();
 
         $this->boot();
     }

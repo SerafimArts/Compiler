@@ -16,7 +16,6 @@ use Railt\Compiler\Grammar\Builder\Concatenation;
 use Railt\Compiler\Grammar\Builder\Repetition;
 use Railt\Compiler\Grammar\Builder\Terminal;
 use Railt\Compiler\Grammar\Delegate\RuleDelegate;
-use Railt\Lexer\LexerInterface;
 use Railt\Lexer\Result\Eoi;
 use Railt\Parser\Rule\Rule;
 
