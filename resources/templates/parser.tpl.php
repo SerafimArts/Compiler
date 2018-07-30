@@ -116,7 +116,7 @@ class <?=$this->class; ?> extends Stateful
     private function bootGrammar(): GrammarInterface
     {
         return new Grammar([
-            <?=\implode(', ' . "\n            ", require __DIR__ . '/rules.tpl.php');?>
+            <?=\implode(', ' . "\n            ", require __DIR__ . '/rules.tpl.php'); ?>
 
         ], self::PARSER_ROOT_RULE, self::PARSER_DELEGATES);
     }
