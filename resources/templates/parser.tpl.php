@@ -46,7 +46,7 @@ class <?=$this->class; ?> extends Stateful
      *
      * @var string[]
      */
-    private const LEXER_TOKENS = [
+    protected const LEXER_TOKENS = [
 <?php foreach ($this->getLexer()->getTokenDefinitions() as $token): ?>
         self::<?=$token->getName(); ?> => <?=$this->render($token->getPcre()); ?>,
 <?php endforeach; ?>
@@ -57,7 +57,7 @@ class <?=$this->class; ?> extends Stateful
      *
      * @var string[]
      */
-    private const LEXER_SKIPPED_TOKENS = [
+    protected const LEXER_SKIPPED_TOKENS = [
 <?php foreach ($this->getLexer()->getTokenDefinitions() as $token):
     if ($token->isKeep()) {
         continue;
@@ -70,14 +70,14 @@ class <?=$this->class; ?> extends Stateful
     /**
      * @var int
      */
-    private const LEXER_FLAGS = Factory::LOOKAHEAD;
+    protected const LEXER_FLAGS = Factory::LOOKAHEAD;
 
     /**
      * List of rule delegates.
      *
      * @var string[]
      */
-    private const PARSER_DELEGATES = [
+    protected const PARSER_DELEGATES = [
 <?php foreach ($this->getGrammar()->getDelegates() as $rule => $delegate): ?>
         <?=$this->render($rule); ?> => \<?=$delegate; ?>::class,
 <?php endforeach; ?>
@@ -88,7 +88,7 @@ class <?=$this->class; ?> extends Stateful
      *
      * @var string
      */
-    private const PARSER_ROOT_RULE = <?=$this->render($this->getGrammar()->beginAt()); ?>;
+    protected const PARSER_ROOT_RULE = <?=$this->render($this->getGrammar()->beginAt()); ?>;
 
     /**
      * @return ParserInterface
@@ -105,19 +105,19 @@ class <?=$this->class; ?> extends Stateful
      * @throws \InvalidArgumentException
      * @throws \Railt\Lexer\Exception\BadLexemeException
      */
-    private function bootLexer(): LexerInterface
+    protected function bootLexer(): LexerInterface
     {
-        return Factory::create(self::LEXER_TOKENS, self::LEXER_SKIPPED_TOKENS, self::LEXER_FLAGS);
+        return Factory::create(static::LEXER_TOKENS, static::LEXER_SKIPPED_TOKENS, static::LEXER_FLAGS);
     }
 
     /**
      * @return GrammarInterface
      */
-    private function bootGrammar(): GrammarInterface
+    protected function bootGrammar(): GrammarInterface
     {
         return new Grammar([
             <?=\implode(', ' . "\n            ", require __DIR__ . '/rules.tpl.php'); ?>
 
-        ], self::PARSER_ROOT_RULE, self::PARSER_DELEGATES);
+        ], static::PARSER_ROOT_RULE, static::PARSER_DELEGATES);
     }
 }
