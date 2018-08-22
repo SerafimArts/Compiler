@@ -68,7 +68,21 @@ playing grammar on the fly!
 use Railt\Io\File;
 use Railt\Compiler\Compiler;
 
-$parser = Compiler::load(File::fromSources('grammar here'));
+$parser = Compiler::load(File::fromSources('
+// The rule "digit" can be replaced by a simple lexeme, 
+// which can be expressed in a PCRE "\d".
+%token T_DIGIT \d
+
+// The same applies to the "+" token.
+%token T_PLUS  \+
+
+// All whitespace chars must be ignored.
+%skip T_WHITESPACE \s+
+
+// Now we need to determine the "sum" rule, which will correspond 
+// to the previous version.
+#Sum = <T_DIGIT> ::T_PLUS:: <T_DIGIT> ;
+'));
 
 echo $parser->parse(File::fromSources('2 + 2'));
 ```
