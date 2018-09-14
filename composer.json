@@ -48,7 +48,7 @@
         }
     },
     "suggest": {
-        "railt/console": "(1.2.*) Console scripts support"
+        "railt/console": "(2.*) Console Scripts Support"
     },
     "extra": {
         "railt": {
