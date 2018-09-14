@@ -40,7 +40,7 @@
     "require-dev": {
         "symfony/finder": "~4.0",
         "phpunit/phpunit": "^6.5",
-        "railt/console": "1.2.*|dev-master"
+        "railt/console": "2.*|dev-master"
     },
     "autoload-dev": {
         "psr-4": {
