@@ -27,9 +27,9 @@
         "ext-mbstring": "*",
         "ext-pcre": "*",
         "ext-spl": "*",
-        "railt/io": "~1.2",
-        "railt/lexer": "1.2.*|dev-master",
-        "railt/parser": "1.2.*|dev-master",
+        "railt/io": "2.*|dev-master",
+        "railt/lexer": "2.*|dev-master",
+        "railt/parser": "2.*|dev-master",
         "zendframework/zend-code": "~3.0"
     },
     "autoload": {
