@@ -70,11 +70,9 @@ class Reader
      */
     private function boot(): void
     {
-        $env = $this->pp->env();
-
-        $env->share(LexerInterface::class, $this->lexer);
-        $env->share(GrammarInterface::class, $this->grammar);
-        $env->share(self::class, $this);
+        $this->pp->env(LexerInterface::class, $this->lexer);
+        $this->pp->env(GrammarInterface::class, $this->grammar);
+        $this->pp->env(self::class, $this);
     }
 
     /**

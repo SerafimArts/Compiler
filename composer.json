@@ -50,6 +50,11 @@
     "suggest": {
         "railt/console": "(2.*) Console Scripts Support"
     },
+    "scripts": {
+        "post-autoload-dump": [
+            "Railt\\Console\\Manifest::discover"
+        ]
+    },
     "extra": {
         "railt": {
             "commands": [

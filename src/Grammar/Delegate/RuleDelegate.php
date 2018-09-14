@@ -52,17 +52,18 @@ class RuleDelegate extends Rule
 
     /**
      * @return string
+     * @throws \Railt\Parser\Exception\InternalException
+     * @throws \Railt\Parser\Exception\ParserException
      */
     public function getRuleName(): string
     {
-        return $this
-            ->first('RuleName')
-            ->first('T_NAME')
-            ->getValue();
+        return $this->find('RuleName > T_NAME')->value();
     }
 
     /**
      * @return bool
+     * @throws \Railt\Parser\Exception\InternalException
+     * @throws \Railt\Parser\Exception\ParserException
      */
     public function isKept(): bool
     {
@@ -71,15 +72,11 @@ class RuleDelegate extends Rule
 
     /**
      * @return null|string
+     * @throws \Railt\Parser\Exception\InternalException
+     * @throws \Railt\Parser\Exception\ParserException
      */
     public function getDelegate(): ?string
     {
-        $delegate = $this->first('RuleDelegate');
-
-        if ($delegate instanceof RuleInterface) {
-            return $delegate->first('T_NAME')->getValue();
-        }
-
-        return null;
+        return $this->find('RuleDelegate > T_NAME')->value();
     }
 }
