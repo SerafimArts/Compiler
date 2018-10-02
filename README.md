@@ -58,7 +58,7 @@ In this way, let's restructure the same rule into the grammar of the Railt.
 
 // Now we need to determine the "sum" rule, which will correspond 
 // to the previous version.
-#Sum = <T_DIGIT> ::T_PLUS:: <T_DIGIT> ;
+#Sum: <T_DIGIT> ::T_PLUS:: <T_DIGIT> ;
 ```
 
 In order to test the performance simply use the reading and 
@@ -69,11 +69,18 @@ use Railt\Io\File;
 use Railt\Compiler\Compiler;
 
 $parser = Compiler::load(File::fromSources('
+
+/**
+ * Grammar sources
+ */
 %token T_DIGIT      \d
 %token T_PLUS       \+
 %skip  T_WHITESPACE \s+
 
-#Sum = <T_DIGIT> ::T_PLUS:: <T_DIGIT> ;
+#Sum
+  : <T_DIGIT> ::T_PLUS:: <T_DIGIT> 
+  ;
+
 '));
 
 echo $parser->parse(File::fromSources('2 + 2'));
@@ -165,19 +172,34 @@ improve the rules of the lexer.
 %token T_DIV            /
 %token T_MUL            \*
 
-#Expression = Operation() ;
+#Expression
+  : Operation() 
+  ;
     
-Operation = <T_DIGIT> (
-    Addition() | Division() | Subtraction() | Multiplication()
-)? ;
+Operation
+  : <T_DIGIT> (
+      Addition() | 
+      Division() | 
+      Subtraction() | 
+      Multiplication()
+    )? 
+  ;
 
-#Addition = ::T_PLUS:: Operation() ;
+#Addition
+  : ::T_PLUS:: Operation() 
+  ;
 
-#Division = ::T_DIV:: Operation() ;
+#Division
+  : ::T_DIV:: Operation() 
+  ;
 
-#Subtraction = ::T_MINUS:: Operation() ;
+#Subtraction
+  : ::T_MINUS:: Operation() 
+  ;
 
-#Multiplication = ::T_MUL:: Operation() ;
+#Multiplication
+  : ::T_MUL:: Operation() 
+  ;
 ```
 
 Simple expression `4 + 8 - 15 * 16 / 23 + -42` will be parsed into the followed tree:
@@ -214,7 +236,9 @@ keyword `->` after name of rule definition. In this case, each processed rule wi
 create an instance of target class.
 
 ```ebnf
-#Digit -> Path\To\Class = <T_DIGIT> ;
+#Digit -> Path\To\Class
+  : <T_DIGIT> 
+  ;
 ```
 
 For more information about delegates, use [the Parser documentation](https://github.com/railt/parser#delegate).
