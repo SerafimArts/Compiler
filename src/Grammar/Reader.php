@@ -61,18 +61,6 @@ class Reader
         $this->lexer    = new NativeRegex();
         $this->grammar  = new Grammar();
         $this->analyzer = new Analyzer();
-
-        $this->boot();
-    }
-
-    /**
-     * @return void
-     */
-    private function boot(): void
-    {
-        $this->pp->env(LexerInterface::class, $this->lexer);
-        $this->pp->env(GrammarInterface::class, $this->grammar);
-        $this->pp->env(self::class, $this);
     }
 
     /**
