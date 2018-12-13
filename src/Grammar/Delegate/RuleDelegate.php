@@ -29,7 +29,7 @@ class RuleDelegate extends Rule
     public function getInnerTokens(): iterable
     {
         return new LookaheadIterator((function () {
-            yield from $this->getTokens($this->first('RuleProduction'));
+            yield from $this->getTokens($this->getProduction());
             yield new Eoi(0);
         })->call($this));
     }
@@ -51,32 +51,60 @@ class RuleDelegate extends Rule
     }
 
     /**
+     * @return LeafInterface|NodeInterface|RuleInterface
+     * @throws \LogicException
+     */
+    private function getProduction(): RuleInterface
+    {
+        foreach ($this->getChildren() as $child) {
+            if ($child->is('RuleProduction')) {
+                return $child;
+            }
+        }
+
+        throw new \LogicException('Could not find RuleProduction node');
+    }
+
+    /**
      * @return string
-     * @throws \Railt\Parser\Exception\InternalException
-     * @throws \Railt\Parser\Exception\ParserException
+     * @throws \LogicException
      */
     public function getRuleName(): string
     {
-        return $this->find('RuleName > T_NAME')->value();
+        foreach ($this->getChildren() as $child) {
+            if ($child->is('RuleName')) {
+                return $child->getValue(0);
+            }
+        }
+
+        throw new \LogicException('Could not find RuleName node');
     }
 
     /**
      * @return bool
-     * @throws \Railt\Parser\Exception\InternalException
-     * @throws \Railt\Parser\Exception\ParserException
      */
     public function isKept(): bool
     {
-        return (bool)$this->first('ShouldKeep');
+        foreach ($this->getChildren() as $child) {
+            if ($child->is('ShouldKeep')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
-     * @return null|string
-     * @throws \Railt\Parser\Exception\InternalException
-     * @throws \Railt\Parser\Exception\ParserException
+     * @return string|null
      */
     public function getDelegate(): ?string
     {
-        return $this->find('RuleDelegate > T_NAME')->value();
+        foreach ($this->getChildren() as $child) {
+            if ($child->is('RuleDelegate')) {
+                return $child->getValue(0);
+            }
+        }
+
+        return null;
     }
 }
