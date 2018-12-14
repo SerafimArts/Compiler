@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Railt\Compiler\Grammar\Delegate;
 
+use Railt\Parser\Ast\RuleInterface;
 use Railt\Parser\Ast\Rule;
 
 /**
@@ -16,6 +17,15 @@ use Railt\Parser\Ast\Rule;
  */
 class TokenDelegate extends Rule
 {
+    /**
+     * IncludeDelegate constructor.
+     * @param RuleInterface $rule
+     */
+    public function __construct(RuleInterface $rule)
+    {
+        parent::__construct($rule->getName(), $rule->getChildren(), $rule->getOffset());
+    }
+
     /**
      * @return bool
      */
