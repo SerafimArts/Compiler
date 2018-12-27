@@ -18,15 +18,6 @@ use Railt\Parser\Ast\RuleInterface;
 class TokenDelegate extends Rule
 {
     /**
-     * IncludeDelegate constructor.
-     * @param RuleInterface $rule
-     */
-    public function __construct(RuleInterface $rule)
-    {
-        parent::__construct($rule->getName(), $rule->getChildren(), $rule->getOffset());
-    }
-
-    /**
      * @return bool
      */
     public function isKept(): bool

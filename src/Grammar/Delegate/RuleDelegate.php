@@ -24,15 +24,6 @@ use Railt\Parser\Ast\RuleInterface;
 class RuleDelegate extends Rule
 {
     /**
-     * IncludeDelegate constructor.
-     * @param RuleInterface $rule
-     */
-    public function __construct(RuleInterface $rule)
-    {
-        parent::__construct($rule->getName(), $rule->getChildren(), $rule->getOffset());
-    }
-
-    /**
      * @return iterable|TokenInterface[]|LookaheadIterator
      */
     public function getInnerTokens(): iterable

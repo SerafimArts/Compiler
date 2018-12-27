@@ -21,15 +21,6 @@ use Railt\Parser\Ast\RuleInterface;
 class IncludeDelegate extends Rule
 {
     /**
-     * IncludeDelegate constructor.
-     * @param RuleInterface $rule
-     */
-    public function __construct(RuleInterface $rule)
-    {
-        parent::__construct($rule->getName(), $rule->getChildren(), $rule->getOffset());
-    }
-
-    /**
      * @param Readable $from
      * @return Readable
      * @throws \Railt\Io\Exception\NotReadableException
