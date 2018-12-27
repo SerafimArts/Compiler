@@ -13,7 +13,6 @@ use Railt\Compiler\Exception\IncludeNotFoundException;
 use Railt\Io\File;
 use Railt\Io\Readable;
 use Railt\Parser\Ast\Rule;
-use Railt\Parser\Ast\RuleInterface;
 
 /**
  * Class IncludeDelegate
