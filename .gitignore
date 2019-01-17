@@ -4,3 +4,6 @@ vendor/
 Thumbs.db
 composer.phar
 composer.lock
+*.phpt.out
+*.phpt.exp
+*.phpt.diff
