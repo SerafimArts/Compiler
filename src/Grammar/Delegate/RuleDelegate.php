@@ -29,7 +29,7 @@ class RuleDelegate extends Rule
     public function getInnerTokens(): iterable
     {
         return new LookaheadIterator((function () {
-            yield from $this->getTokens($this->getProduction());
+            yield from $this->getTokens($this->first('RuleProduction'));
             yield new Eoi(0);
         })->call($this));
     }
@@ -51,33 +51,14 @@ class RuleDelegate extends Rule
     }
 
     /**
-     * @return LeafInterface|NodeInterface|RuleInterface
-     * @throws \LogicException
-     */
-    private function getProduction(): RuleInterface
-    {
-        foreach ($this->getChildren() as $child) {
-            if ($child->is('RuleProduction')) {
-                return $child;
-            }
-        }
-
-        throw new \LogicException('Could not find RuleProduction node');
-    }
-
-    /**
      * @return string
-     * @throws \LogicException
      */
     public function getRuleName(): string
     {
-        foreach ($this->getChildren() as $child) {
-            if ($child->is('RuleName')) {
-                return $child->getValue(0);
-            }
-        }
-
-        throw new \LogicException('Could not find RuleName node');
+        return $this
+            ->first('RuleName')
+            ->first('T_NAME')
+            ->getValue();
     }
 
     /**
@@ -85,24 +66,18 @@ class RuleDelegate extends Rule
      */
     public function isKept(): bool
     {
-        foreach ($this->getChildren() as $child) {
-            if ($child->is('ShouldKeep')) {
-                return true;
-            }
-        }
-
-        return false;
+        return (bool)$this->first('ShouldKeep');
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getDelegate(): ?string
     {
-        foreach ($this->getChildren() as $child) {
-            if ($child->is('RuleDelegate')) {
-                return $child->getValue(0);
-            }
+        $delegate = $this->first('RuleDelegate');
+
+        if ($delegate instanceof RuleInterface) {
+            return $delegate->first('T_NAME')->getValue();
         }
 
         return null;

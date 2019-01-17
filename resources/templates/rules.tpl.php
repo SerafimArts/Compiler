@@ -50,7 +50,7 @@ foreach ($this->getGrammar()->getRules() as $rule) {
     }
 
     $params = [
-        \basename(\str_replace('\\', '/', \get_class($rule))),
+        \class_basename($rule),
         $this->render($rule->getName()),
         \implode(', ', $args),
     ];
