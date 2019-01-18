@@ -40,7 +40,7 @@
     "require-dev": {
         "symfony/finder": "~4.0",
         "phpunit/phpunit": "^6.5",
-        "railt/discovery": "1.4.*|1.4.x-dev",
+        "railt/discovery": "1.4.*|1.4.x-dev"
     },
     "autoload-dev": {
         "psr-4": {
