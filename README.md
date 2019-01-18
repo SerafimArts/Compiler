@@ -4,8 +4,8 @@
 
 <p align="center">
     <a href="https://travis-ci.org/railt/compiler"><img src="https://travis-ci.org/railt/compiler.svg?branch=master" alt="Travis CI" /></a>
-    <a href="https://scrutinizer-ci.com/g/railt/compiler/?branch=master"><img src="https://scrutinizer-ci.com/g/railt/compiler/badges/coverage.png?b=master" alt="Code coverage" /></a>
-    <a href="https://scrutinizer-ci.com/g/railt/compiler/?branch=master"><img src="https://scrutinizer-ci.com/g/railt/compiler/badges/quality-score.png?b=master" alt="Scrutinizer CI" /></a>
+    <a href="https://scrutinizer-ci.com/g/railt/compiler/?branch=master"><img src="https://scrutinizer-ci.com/g/railt/compiler/badges/coverage.png?b=1.4.x" alt="Code coverage" /></a>
+    <a href="https://scrutinizer-ci.com/g/railt/compiler/?branch=master"><img src="https://scrutinizer-ci.com/g/railt/compiler/badges/quality-score.png?b=1.4.x" alt="Scrutinizer CI" /></a>
     <a href="https://packagist.org/packages/railt/compiler"><img src="https://poser.pugx.org/railt/compiler/version" alt="Latest Stable Version"></a>
     <a href="https://packagist.org/packages/railt/compiler"><img src="https://poser.pugx.org/railt/compiler/v/unstable" alt="Latest Unstable Version"></a>
     <a href="https://raw.githubusercontent.com/railt/compiler/master/LICENSE.md"><img src="https://poser.pugx.org/railt/compiler/license" alt="License MIT"></a>
