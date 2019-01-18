@@ -22,12 +22,12 @@ class IncludeDelegate extends Rule
     /**
      * @param Readable $from
      * @return Readable
+     * @throws IncludeNotFoundException
      * @throws \Railt\Io\Exception\NotReadableException
-     * @throws \Railt\Io\Exception\ExternalFileException
      */
     public function getPathname(Readable $from): Readable
     {
-        $file = $this->getValues()->current()->getValue(1);
+        $file = $this->getChild(0)->getValue(1);
 
         foreach (['', '.pp', '.pp2'] as $ext) {
             $path = \dirname($from->getPathname()) . '/' . $file . $ext;
@@ -37,7 +37,9 @@ class IncludeDelegate extends Rule
             }
         }
 
-        throw (new IncludeNotFoundException(\sprintf('Grammar "%s" not found', $file)))
-            ->throwsIn($from, $this->getOffset());
+        $exception = new IncludeNotFoundException(\sprintf('Grammar "%s" not found', $file));
+        $exception->throwsIn($from, $this->getOffset());
+
+        throw $exception;
     }
 }
