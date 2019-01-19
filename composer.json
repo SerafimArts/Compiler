@@ -39,7 +39,7 @@
     },
     "require-dev": {
         "symfony/finder": "~4.0",
-        "phpunit/phpunit": "^6.5",
+        "phpunit/phpunit": "^7.5",
         "railt/discovery": "1.4.*|1.4.x-dev"
     },
     "autoload-dev": {
