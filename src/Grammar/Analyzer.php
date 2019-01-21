@@ -16,6 +16,7 @@ use Railt\Compiler\Grammar\Builder\Concatenation;
 use Railt\Compiler\Grammar\Builder\Repetition;
 use Railt\Compiler\Grammar\Builder\Terminal;
 use Railt\Compiler\Grammar\Delegate\RuleDelegate;
+use Railt\Lexer\Token\EndOfInput;
 use Railt\Parser\Rule\Rule;
 
 /**
@@ -70,10 +71,10 @@ class Analyzer
 
         foreach ($this->rules as $delegate) {
             $this->ruleName = $delegate->getRuleName();
-            $nodeId         = $delegate->isKept() ? $delegate->getRuleName() : null;
+            $nodeId = $delegate->isKept() ? $delegate->getRuleName() : null;
 
             $pNodeId = $nodeId;
-            $rule    = $this->rule($delegate->getInnerTokens(), $pNodeId);
+            $rule = $this->rule($delegate->getInnerTokens(), $pNodeId);
 
             if ($rule === null) {
                 $error = \sprintf('Error while parsing rule %s.', $delegate->getRuleName());
@@ -123,7 +124,7 @@ class Analyzer
 
         // concatenation() …
         $nNodeId = $pNodeId;
-        $rule    = $this->concatenation($tokens, $nNodeId);
+        $rule = $this->concatenation($tokens, $nNodeId);
 
         if ($rule === null) {
             return null;
@@ -134,14 +135,14 @@ class Analyzer
         }
 
         $children[] = $rule;
-        $others     = false;
+        $others = false;
 
         // … ( ::or:: concatenation() )*
         while ($tokens->current()->getName() === Parser::T_OR) {
             $tokens->next();
-            $others  = true;
+            $others = true;
             $nNodeId = $pNodeId;
-            $rule    = $this->concatenation($tokens, $nNodeId);
+            $rule = $this->concatenation($tokens, $nNodeId);
 
             if ($rule === null) {
                 return null;
@@ -187,12 +188,12 @@ class Analyzer
         }
 
         $children[] = $rule;
-        $others     = false;
+        $others = false;
 
         // … repetition()*
         while (null !== $r1 = $this->repetition($tokens, $pNodeId)) {
             $children[] = $r1;
-            $others     = true;
+            $others = true;
         }
 
         if ($others === false && $pNodeId === null) {
@@ -375,8 +376,8 @@ class Analyzer
             throw new GrammarException($error, 5);
         }
 
-        if ($tokens->getNext()->getName() === Eoi::T_NAME) {
-            $name                     = $this->transitionalRuleCounter++;
+        if ($tokens->getNext()->getName() === EndOfInput::T_NAME) {
+            $name = $this->transitionalRuleCounter++;
             $this->parsedRules[$name] = new Concatenation($name, [$tokenName]);
         } else {
             $name = $tokenName;

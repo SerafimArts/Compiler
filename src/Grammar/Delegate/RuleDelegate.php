@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Railt\Compiler\Grammar\Delegate;
 
 use Railt\Compiler\Grammar\LookaheadIterator;
+use Railt\Lexer\Token\EndOfInput;
 use Railt\Lexer\Token\Token;
 use Railt\Lexer\TokenInterface;
 use Railt\Parser\Ast\LeafInterface;
@@ -29,7 +30,7 @@ class RuleDelegate extends Rule
     {
         return new LookaheadIterator((function () {
             yield from $this->getTokens($this->first('RuleProduction'));
-            yield new Eoi(0);
+            yield new EndOfInput(0);
         })->call($this));
     }
 
