@@ -56,8 +56,7 @@
         "railt": {
             "commands": [
                 "Railt\\Compiler\\Console\\GrammarCompileCommand",
-                "Railt\\Compiler\\Console\\CompileCommand",
-                "Railt\\Compiler\\Console\\AnalyzeCommand"
+                "Railt\\Compiler\\Console\\CompileCommand"
             ]
         }
     },

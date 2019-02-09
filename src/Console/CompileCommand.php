@@ -47,13 +47,11 @@ class CompileCommand extends Command
     }
 
     /**
-     * @return void
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
-     * @throws \Symfony\Component\Console\Exception\LogicException
      */
     protected function configure(): void
     {
-        $this->setName('compiler:compile');
+        $this->setName('compile');
         $this->setDescription('Builds a parser from pp2 grammar file.');
 
         $this->addArgument('grammar', InputArgument::REQUIRED,
