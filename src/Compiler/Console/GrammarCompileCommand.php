@@ -23,7 +23,7 @@ final class GrammarCompileCommand extends Command
     /**
      * @var string Default parser output path
      */
-    private const PARSER_GRAMMAR = __DIR__ . '/../../resources/pp2/grammar.pp2';
+    private const PARSER_GRAMMAR = __DIR__ . '/../../../resources/pp2/grammar.pp2';
 
     /**
      * @var string Default parser output path
