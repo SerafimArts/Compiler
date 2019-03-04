@@ -34,7 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Railt\\Compiler\\": "src"
+            "Railt\\": "src"
         }
     },
     "require-dev": {
