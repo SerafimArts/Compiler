@@ -30,7 +30,7 @@ class IncludeDelegate extends Rule
     public function getPathname(Readable $from): Readable
     {
         $name = $this->getChild(0)->getValue(1);
-        $dir  = \dirname($from->getPathname());
+        $dir = \dirname($from->getPathname());
 
         foreach (['', '.pp', '.pp2'] as $ext) {
             $path = $dir . '/' . $name . $ext;
