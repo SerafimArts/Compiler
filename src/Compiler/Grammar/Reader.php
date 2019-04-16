@@ -9,18 +9,18 @@ declare(strict_types=1);
 
 namespace Railt\Component\Compiler\Grammar;
 
-use Railt\Component\Compiler\Grammar\Delegate\IncludeDelegate;
+use Railt\Component\Io\Readable;
+use Railt\Component\Parser\Grammar;
+use Railt\Component\Parser\Driver\Llk;
+use Railt\Component\Lexer\LexerInterface;
+use Railt\Component\Parser\ParserInterface;
+use Railt\Component\Parser\GrammarInterface;
+use Railt\Component\Lexer\Driver\NativeRegex;
+use Railt\Component\Io\Exception\NotReadableException;
+use Railt\Component\Exception\ExternalException;
 use Railt\Component\Compiler\Grammar\Delegate\RuleDelegate;
 use Railt\Component\Compiler\Grammar\Delegate\TokenDelegate;
-use Railt\Component\Exception\ExternalException;
-use Railt\Component\Io\Exception\NotReadableException;
-use Railt\Component\Io\Readable;
-use Railt\Component\Lexer\Driver\NativeRegex;
-use Railt\Component\Lexer\LexerInterface;
-use Railt\Component\Parser\Driver\Llk;
-use Railt\Component\Parser\Grammar;
-use Railt\Component\Parser\GrammarInterface;
-use Railt\Component\Parser\ParserInterface;
+use Railt\Component\Compiler\Grammar\Delegate\IncludeDelegate;
 
 /**
  * Class Reader
@@ -59,10 +59,10 @@ class Reader
      */
     public function __construct(Readable $file)
     {
-        $this->file     = $file;
-        $this->pp       = new Parser();
-        $this->lexer    = new NativeRegex();
-        $this->grammar  = new Grammar();
+        $this->file = $file;
+        $this->pp = new Parser();
+        $this->lexer = new NativeRegex();
+        $this->grammar = new Grammar();
         $this->analyzer = new Analyzer();
     }
 
