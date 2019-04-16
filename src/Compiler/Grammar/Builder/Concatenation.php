@@ -7,10 +7,10 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Grammar\Builder;
+namespace Railt\Component\Compiler\Grammar\Builder;
 
-use Railt\Parser\Rule\Concatenation as ConcatenationRule;
-use Railt\Parser\Rule\Rule;
+use Railt\Component\Parser\Rule\Concatenation as ConcatenationRule;
+use Railt\Component\Parser\Rule\Rule;
 
 /**
  * Class Concatenation

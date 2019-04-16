@@ -7,16 +7,16 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Grammar\Delegate;
+namespace Railt\Component\Compiler\Grammar\Delegate;
 
-use Railt\Compiler\Grammar\LookaheadIterator;
-use Railt\Lexer\Token\EndOfInput;
-use Railt\Lexer\Token\Token;
-use Railt\Lexer\TokenInterface;
-use Railt\Parser\Ast\LeafInterface;
-use Railt\Parser\Ast\NodeInterface;
-use Railt\Parser\Ast\Rule;
-use Railt\Parser\Ast\RuleInterface;
+use Railt\Component\Compiler\Grammar\LookaheadIterator;
+use Railt\Component\Lexer\Token\EndOfInput;
+use Railt\Component\Lexer\Token\Token;
+use Railt\Component\Lexer\TokenInterface;
+use Railt\Component\Parser\Ast\LeafInterface;
+use Railt\Component\Parser\Ast\NodeInterface;
+use Railt\Component\Parser\Ast\Rule;
+use Railt\Component\Parser\Ast\RuleInterface;
 
 /**
  * Class RuleDelegate
@@ -55,10 +55,7 @@ class RuleDelegate extends Rule
      */
     public function getRuleName(): string
     {
-        return $this
-            ->first('RuleName')
-            ->first('T_NAME')
-            ->getValue();
+        return $this->first('RuleName')->first('T_NAME')->getValue();
     }
 
     /**

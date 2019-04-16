@@ -7,18 +7,20 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Grammar;
+namespace Railt\Component\Compiler\Grammar;
 
-use Railt\Compiler\Grammar\Delegate\IncludeDelegate;
-use Railt\Compiler\Grammar\Delegate\RuleDelegate;
-use Railt\Compiler\Grammar\Delegate\TokenDelegate;
-use Railt\Io\Readable;
-use Railt\Lexer\Driver\NativeRegex;
-use Railt\Lexer\LexerInterface;
-use Railt\Parser\Driver\Llk;
-use Railt\Parser\Grammar;
-use Railt\Parser\GrammarInterface;
-use Railt\Parser\ParserInterface;
+use Railt\Component\Io\Readable;
+use Railt\Component\Parser\Grammar;
+use Railt\Component\Parser\Driver\Llk;
+use Railt\Component\Lexer\LexerInterface;
+use Railt\Component\Parser\ParserInterface;
+use Railt\Component\Parser\GrammarInterface;
+use Railt\Component\Lexer\Driver\NativeRegex;
+use Railt\Component\Io\Exception\NotReadableException;
+use Railt\Component\Exception\ExternalException;
+use Railt\Component\Compiler\Grammar\Delegate\RuleDelegate;
+use Railt\Component\Compiler\Grammar\Delegate\TokenDelegate;
+use Railt\Component\Compiler\Grammar\Delegate\IncludeDelegate;
 
 /**
  * Class Reader
@@ -52,21 +54,22 @@ class Reader
 
     /**
      * Reader constructor.
+     *
      * @param Readable $file
      */
     public function __construct(Readable $file)
     {
-        $this->file     = $file;
-        $this->pp       = new Parser();
-        $this->lexer    = new NativeRegex();
-        $this->grammar  = new Grammar();
+        $this->file = $file;
+        $this->pp = new Parser();
+        $this->lexer = new NativeRegex();
+        $this->grammar = new Grammar();
         $this->analyzer = new Analyzer();
     }
 
     /**
      * @return ParserInterface
-     * @throws \Railt\Io\Exception\ExternalFileException
-     * @throws \Railt\Io\Exception\NotReadableException
+     * @throws ExternalException
+     * @throws NotReadableException
      */
     public function getParser(): ParserInterface
     {
@@ -81,8 +84,8 @@ class Reader
 
     /**
      * @param Readable $file
-     * @throws \Railt\Io\Exception\ExternalFileException
-     * @throws \Railt\Io\Exception\NotReadableException
+     * @throws ExternalException
+     * @throws NotReadableException
      */
     private function addGrammar(Readable $file): void
     {

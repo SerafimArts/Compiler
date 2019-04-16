@@ -7,9 +7,9 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Grammar\Delegate;
+namespace Railt\Component\Compiler\Grammar\Delegate;
 
-use Railt\Parser\Ast\Rule;
+use Railt\Component\Parser\Ast\Rule;
 
 /**
  * Class TokenDelegate

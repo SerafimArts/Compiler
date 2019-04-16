@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Exception;
+namespace Railt\Component\Compiler\Exception;
 
 /**
  * Class UnknownRuleException

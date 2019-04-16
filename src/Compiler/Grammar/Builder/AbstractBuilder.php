@@ -7,9 +7,9 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Grammar\Builder;
+namespace Railt\Component\Compiler\Grammar\Builder;
 
-use Railt\Parser\Rule\Rule;
+use Railt\Component\Parser\Rule\Rule;
 
 /**
  * Class AbstractBuilder
@@ -44,9 +44,9 @@ abstract class AbstractBuilder
      */
     public function __construct($name, $children, string $nodeId = null)
     {
-        $this->name     = $name;
+        $this->name = $name;
         $this->children = $children;
-        $this->nodeId   = $nodeId;
+        $this->nodeId = $nodeId;
     }
 
     /**

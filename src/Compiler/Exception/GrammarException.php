@@ -7,13 +7,13 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Exception;
+namespace Railt\Component\Compiler\Exception;
 
-use Railt\Io\Exception\ExternalFileException;
+use Railt\Component\Exception\ExternalException;
 
 /**
  * Class GrammarException
  */
-class GrammarException extends ExternalFileException
+class GrammarException extends ExternalException
 {
 }

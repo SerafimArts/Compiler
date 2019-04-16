@@ -7,10 +7,10 @@
  */
 declare(strict_types=1);
 
-use Railt\Parser\Rule\Alternation;
-use Railt\Parser\Rule\Concatenation;
-use Railt\Parser\Rule\Repetition;
-use Railt\Parser\Rule\Terminal;
+use Railt\Component\Parser\Rule\Alternation;
+use Railt\Component\Parser\Rule\Concatenation;
+use Railt\Component\Parser\Rule\Repetition;
+use Railt\Component\Parser\Rule\Terminal;
 
 $result = [];
 

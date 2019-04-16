@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Grammar;
+namespace Railt\Component\Compiler\Grammar;
 
 /**
  * Class LookaheadIterator
@@ -37,6 +37,7 @@ class LookaheadIterator extends \IteratorIterator
 
     /**
      * LookaheadIterator constructor.
+     *
      * @param iterable $iterator
      */
     public function __construct(iterable $iterator)
@@ -51,27 +52,9 @@ class LookaheadIterator extends \IteratorIterator
      */
     private function toIterator(iterable $iterable): \Traversable
     {
-        return $iterable instanceof \Traversable ? $iterable : new \ArrayIterator($iterable);
-    }
-
-    /**
-     * Return the current element.
-     *
-     * @return mixed
-     */
-    public function current()
-    {
-        return $this->current;
-    }
-
-    /**
-     * Return the key of the current element.
-     *
-     * @return mixed
-     */
-    public function key()
-    {
-        return $this->key;
+        return $iterable instanceof \Traversable
+            ? $iterable
+            : new \ArrayIterator($iterable);
     }
 
     /**
@@ -94,16 +77,36 @@ class LookaheadIterator extends \IteratorIterator
     public function next(): void
     {
         $innerIterator = $this->getInnerIterator();
-        $this->valid   = $innerIterator->valid();
+        $this->valid = $innerIterator->valid();
 
         if ($this->valid === false) {
             return;
         }
 
-        $this->key     = $innerIterator->key();
+        $this->key = $innerIterator->key();
         $this->current = $innerIterator->current();
 
         $innerIterator->next();
+    }
+
+    /**
+     * Return the current element.
+     *
+     * @return mixed
+     */
+    public function current()
+    {
+        return $this->current;
+    }
+
+    /**
+     * Return the key of the current element.
+     *
+     * @return mixed
+     */
+    public function key()
+    {
+        return $this->key;
     }
 
     /**

@@ -7,10 +7,10 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler\Grammar\Builder;
+namespace Railt\Component\Compiler\Grammar\Builder;
 
-use Railt\Parser\Rule\Repetition as RepetitionRule;
-use Railt\Parser\Rule\Rule;
+use Railt\Component\Parser\Rule\Repetition as RepetitionRule;
+use Railt\Component\Parser\Rule\Rule;
 
 /**
  * Class Repetition

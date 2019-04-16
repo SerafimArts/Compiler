@@ -10,6 +10,12 @@
 *.phpt linguist-language=PHP
 
 #
+# Multi Repo Ignore
+#
+multirepo.json export-ignore
+/.multirepo export-ignore
+
+#
 # Tests Ignore
 #
 /tests export-ignore

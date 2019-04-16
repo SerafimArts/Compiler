@@ -7,13 +7,17 @@
  */
 declare(strict_types=1);
 
-namespace Railt\Compiler;
+namespace Railt\Component\Compiler;
 
-use Railt\Compiler\Grammar\Reader;
-use Railt\Io\Readable;
-use Railt\Parser\Driver\Proxy;
-use Railt\Parser\ParserInterface;
+use Railt\Component\Io\Readable;
+use Railt\Component\Parser\Driver\Proxy;
+use Railt\Component\Parser\ParserInterface;
+use Railt\Component\Compiler\Grammar\Reader;
 use Zend\Code\Generator\ValueGenerator as Value;
+use Zend\Code\Exception\InvalidArgumentException;
+use Zend\Code\Generator\Exception\RuntimeException;
+use Railt\Component\Io\Exception\NotReadableException;
+use Railt\Component\Exception\ExternalException;
 
 /**
  * Class Compiler
@@ -33,8 +37,8 @@ class Compiler extends Proxy
     /**
      * @param Readable $grammar
      * @return Compiler
-     * @throws \Railt\Io\Exception\ExternalFileException
-     * @throws \Railt\Io\Exception\NotReadableException
+     * @throws ExternalException
+     * @throws NotReadableException
      */
     public static function load(Readable $grammar): self
     {
@@ -98,7 +102,8 @@ class Compiler extends Proxy
         \ob_start();
 
         try {
-            require __DIR__ . '/../../resources/pp2/templates/parser.tpl.php';
+            require __DIR__ . '/Resources/templates/parser.tpl.php';
+
             return \ob_get_contents();
         } catch (\Throwable $e) {
             throw $e;
@@ -110,8 +115,8 @@ class Compiler extends Proxy
     /**
      * @param mixed $value
      * @return string
-     * @throws \Zend\Code\Exception\InvalidArgumentException
-     * @throws \Zend\Code\Generator\Exception\RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     protected function render($value): string
     {
